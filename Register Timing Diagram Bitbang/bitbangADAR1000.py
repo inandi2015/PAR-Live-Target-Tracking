@@ -10,12 +10,12 @@ miso = 18
 mosi = 27
 cs0 = 22
 
-GPIO.setup(clock, GPIO.OUT) #Set pin to output
-GPIO.output(clock, False) #Set pin to low ("False")
+GPIO.setup(clock, GPIO.OUT) # Set pin to output
+GPIO.output(clock, False) # Set pin to low ("False")
 GPIO.setup(miso, GPIO.IN)
-GPIO.setup(mosi, GPIO.OUT) #Set limit switch as input
+GPIO.setup(mosi, GPIO.OUT) # Set limit switch as input
 GPIO.output(mosi, False)
-GPIO.setup(cs0, GPIO.OUT)
+GPIO.setup(cs0, GPIO.OUT) # Set pin to output
 GPIO.output(cs0, True)
 
 def ADAR1000(rw, reg, data, cs):
@@ -48,12 +48,14 @@ def ADAR1000(rw, reg, data, cs):
 			GPIO.output(mosi, True)
 			time.sleep(0.00000000000001)
 			GPIO.output(clock, True)
+
+		time.sleep(0.000000000001)
+		response[i] = GPIO.input(miso)
+		
 		if i == 23:
 			time.sleep(0.000000010)
 			break
 		else:
-			time.sleep(0.000000000001)
-			response[i] = GPIO.input(miso)
 			GPIO.output(clock, False)
 			GPIO.output(mosi, bits[i+1])
 			time.sleep(0.000000000001)

@@ -8,57 +8,115 @@ global clock, le, txData
 clock = 17
 le = 27
 txData = 22
+data = 18
+muxOut = 23
 
-GPIO.setup(clock, GPIO.OUT) #Set pin to output
-GPIO.output(clock, False) #Set pin to low ("False")
-# Need SPI data input for thhis: GPIO.setup([data placeholder], GPIO.IN) 
-GPIO.setup(le, GPIO.OUT) #Set pin to output
-GPIO.output(le, False) #Set pin to low ("False")
-GPIO.setup(txData, GPIO.OUT) #Set pin to output
-GPIO.output(txData, False) #Set pin to low ("False")
+GPIO.setup(clock, GPIO.OUT) # Set pin to output
+GPIO.output(clock, False) # Set pin to low ("False")
+GPIO.setup(muxOut, GPIO.IN) # Set pin to input
+GPIO.setup(le, GPIO.OUT) # Set pin to output
+GPIO.output(le, True) # Set pin to high ("True")
+GPIO.setup(txData, GPIO.OUT) # Set pin to output
+GPIO.output(txData, False) # Set pin to low ("False")
+GPIO.setup(data, GPIO.OUT) # Set pin to output
+GPIO.output(data, False) # Set pin to low ("False")
 
-def ADAR4159Read(reg, data, cs):
-	d = list(bin(int(data, 16))[2:].zfill(8))
+def ADF4159Read(reg, data):
+	d = list(bin(int(data, 16))[2:].zfill(4))
  
 	for i in range(len(r)):
 		d[i] = int(d[i])
 	
-	bits = [d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
-	#response = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+	bits = [d[0],d[1],d[2],d[3]]
+	response = [0,0,0,0]
         
 	GPIO.output(clock, False)
 	GPIO.output(le, True)
-	
+
+    GPIO.output(txData, True)
+    time.sleep(0.000000020) # Note: Add time for the frequency of the phase frequency detector (PFD)
+    GPIO.output(txData, False)
+    time.sleep(0.00000000000001)
+    GPIO.output(clock, True)
+	time.sleep(0.000000020)
+    GPIO.output(clock, False)
+
 	for i in range(len(bits)):
 		if bits[i] == 1:
-			GPIO.output(mosi, True)
-			time.sleep(0.00000000000001)
+            time.sleep(0.000000025)
 			GPIO.output(clock, True)
-		if i == 4:
+
+        time.sleep(0.000000025)
+        response[i] = GPIO.input(muxOut)
+
+		if i == 3:
 			time.sleep(0.000000010)
+            GPIO.output(clock, False)
+            GPIO.output(le, False)
 			break
-		else:
-			time.sleep(0.000000000001)
-			response[i] = GPIO.input(miso)
-			GPIO.output(clock, False)
-			GPIO.output(mosi, bits[i+1])
-			time.sleep(0.000000000001)
+        else:
+            GPIO.output(clock, False)
+            time.sleep(0.000000000001)
 		
-	GPIO.output(mosi, False)
-	GPIO.output(csel, True)
-	if w:
-		print response
+	GPIO.output(le, False)
+	print response
 	return
 
-def ADAR4159Write(reg, data, cs):
+def ADF4159Write(reg, data):
+	d = list(bin(int(data, 16))[2:].zfill(4))
+ 
+	for i in range(len(r)):
+		d[i] = int(d[i])
+	
+	bits = [d[0],d[1],d[2],d[3]]
+	response = [0,0,0,0,0]
+        
+	GPIO.output(clock, False)
+    GPIO.output(le, True)
+    time.sleep(0.00000000000001)
+
+	GPIO.output(le, False)
+    time.sleep(0.000000020) 
+    GPIO.output(clock, True)
+    time.sleep(0.000000025)
+    GPIO.output(clock, False)
+
+	for i in range(len(bits)):
+		if bits[i] == 1:
+            GPIO.output(data, True)
+            time.sleep(0.000000025)
+			GPIO.output(clock, True)
+
+        time.sleep(0.000000000001)
+        response[i] = GPIO.input(muxOut)
+
+		if i == 3:
+			time.sleep(0.000000010)
+            GPIO.output(le, True)
+            time.sleep(0.000000015)
+            GPIO.output(clock, False)
+            time.sleep(0.00000005)
+            GPIO.output(le, False)
+			break 
+        else:
+            time.sleep(0.000000025)
+            GPIO.output(clock, False)
+            GPIO.output(data, bits[i+1])
+            time.sleep(0.000000000001)
+		
+	GPIO.output(le, False)
+	print response
 	return
 
 while True:
-	ADAR4159Read(1, "A", "55", 0)  
+	ADF4159Read("A", "55")  
 
-ADAR4159(0, "0", "99", 0)	
-ADAR4159(0, "A", "55", 0)
-ADAR4159(1, "A", "00", 0)
+# while True:
+# 	ADF4159Write("A", "55")  
+
+ADF4159Read("0", "9")	
+ADF4159Read("A", "5")
+ADF4159Write("A", "0")
 
 
 
