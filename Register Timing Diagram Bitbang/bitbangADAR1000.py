@@ -51,7 +51,7 @@ def ADAR1000(rw, reg, data, cs):
 
 		time.sleep(0.000000000001)
 		response[i] = GPIO.input(miso)
-		
+
 		if i == 23:
 			time.sleep(0.000000010)
 			break
@@ -62,8 +62,7 @@ def ADAR1000(rw, reg, data, cs):
 		
 	GPIO.output(mosi, False)
 	GPIO.output(csel, True)
-	if w:
-		print response
+	print response
 	return
 
 # Tester: 
