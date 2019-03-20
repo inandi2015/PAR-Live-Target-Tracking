@@ -1,7 +1,9 @@
-from firebaseUpload import FirebaseHandshake
+from firebaseUpload import FirebaseUpload
+from firebaseDownload import FirebaseDownload
 from firebase import firebase
+import sys
 
-firebaseHandshake = FirebaseHandshake()
+upload = FirebaseUpload()
 firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking.firebaseio.com/DEV', None)
 # Execute function logic here or elsewhere as needed
-firebaseHandshake.firebaseUploadStop(firebaseProject)
+upload.firebaseUploadLocal(firebaseProject, sys.argv[1])

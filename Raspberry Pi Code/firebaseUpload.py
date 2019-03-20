@@ -6,20 +6,8 @@ import json
 import numpy
 from firebase import firebase 
 
-### LoCAL MODULES ###
-class FirebaseHandshake:
-    def firebaseUploadStart(self, firebaseProject):
-        dataJSON = {'Mode': 'Start', 'PhaseDifference': 'NA'}
-        firebaseProject.patch('/DEV/SignalData', dataJSON)
 
-    def firebaseUploadStop(self, firebaseProject):
-        dataJSON = {'Mode': 'Stop', 'PhaseDifference': 'NA'}
-        firebaseProject.patch('/DEV/SignalData', dataJSON)
-
-    def firebaseUploadLocal(self, firebaseProject):
-        dataJSON = {'Mode': 'Local', 'PhaseDifference': 10} # Insert parameter here in JSON format to also patch phase differnce calculation as an argument from MATLAB
-        firebaseProject.patch('/DEV/SignalData', dataJSON)
-
+class FirebaseUpload:
     ### RADAR MODULES ###
 
     def firebaseUploadAcquisition(self, firebaseProject):
