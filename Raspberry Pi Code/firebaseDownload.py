@@ -21,13 +21,13 @@ class firebaseDownload:
         if result['Mode'] == 'Start':
             print("Starting system...")
             # Call driver stuff
+            return 'Start'
         elif result['Mode'] == 'Stop':  
             print("Stopping system...")
             # Kill everything
+            return 'Stop'
         elif result['Mode'] == 'Local':
             print("Steering beamformer...")
             # Return phase difference result['PhaseDifference'] to steer beam
+            return 'Local'
         
-
-# firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking.firebaseio.com/DEV', None)
-# firebaseDownloadRadar(firebaseProject)

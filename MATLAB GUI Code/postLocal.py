@@ -1,5 +1,4 @@
 from firebaseUpload import FirebaseUpload
-from firebaseDownload import FirebaseDownload
 from firebase import firebase
 import sys
 
