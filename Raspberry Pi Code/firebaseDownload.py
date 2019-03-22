@@ -6,7 +6,7 @@ import json
 import numpy
 from firebase import firebase 
 
-class firebaseDownload:
+class FirebaseDownload:
     ### RADAR MODULES ###
 
     def firebaseDownloadRadar(self, firebaseProject):
