@@ -10,10 +10,7 @@ class FirebaseDownload:
     ### LOCAL MODULES ###
 
     def firebaseDownloadLocal(self, firebaseProject):
-        while True:
-            result = firebaseProject.get('/DEV', 'SignalData')
-            if result['Mode'] == 'Tracking' or result['Mode'] == 'Acquisition':
-                break
+        result = firebaseProject.get('/DEV', 'SignalData')
             
         print(result['Channel1'])
         print(result['Channel2'])
