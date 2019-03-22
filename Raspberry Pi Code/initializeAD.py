@@ -2,7 +2,7 @@ from ctypes import *
 from dwfconstants import *
 import math
 import time
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import sys
 import numpy
 

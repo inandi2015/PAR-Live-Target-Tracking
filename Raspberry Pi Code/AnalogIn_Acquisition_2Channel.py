@@ -11,7 +11,7 @@ from ctypes import *
 from dwfconstants import *
 import math
 import time
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import sys
 import numpy
 
@@ -53,7 +53,7 @@ dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(0), c_double(5))
 dwf.FDwfAnalogInChannelEnableSet(hdwf, c_int(1), c_bool(True))
 dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(1), c_double(5))
 #wait at least 2 seconds for the offset to stabilize
-time.sleep(2)
+time.sleep(5)
 
 #begin acquisition
 dwf.FDwfAnalogInConfigure(hdwf, c_bool(False), c_bool(True))
@@ -93,8 +93,8 @@ numpy.savetxt("testCH1.csv", array1, delimiter=",")
 array2 = numpy.asarray(rgpy2)
 numpy.savetxt("testCH2.csv", array2, delimiter=",")
 
-plt.plot(rgpy1)
-plt.plot(rgpy2)
-plt.show()
+#plt.plot(rgpy1)
+#plt.plot(rgpy2)
+#plt.show()
 
 

@@ -11,7 +11,7 @@ from ctypes import *
 from dwfconstants import *
 import math
 import time
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import sys
 import numpy
 
@@ -42,7 +42,7 @@ print "Acquisition finished"
 
 dwf.FDwfAnalogInStatusData(hdwf, 0, rgdSamples1, 4000)
 dwf.FDwfAnalogInStatusData(hdwf, 1, rgdSamples2, 4000)
-dwf.FDwfDeviceCloseAll()
+#dwf.FDwfDeviceCloseAll()
 
 #plot window
 dc1 = sum(rgdSamples1)/len(rgdSamples1)
@@ -66,8 +66,8 @@ numpy.savetxt("testCH1.csv", array1, delimiter=",")
 array2 = numpy.asarray(rgpy2)
 numpy.savetxt("testCH2.csv", array2, delimiter=",")
 
-plt.plot(rgpy1)
-plt.plot(rgpy2)
-plt.show()
+#plt.plot(rgpy1)
+#plt.plot(rgpy2)
+#plt.show()
 
 
