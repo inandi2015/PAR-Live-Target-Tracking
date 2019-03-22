@@ -36,7 +36,7 @@ class FirebaseDownload:
             with open("OutputStatus.csv", "w") as f:
                 writer = csv.writer(f, dialect='excel', lineterminator = '\n')
                 writer.writerow([result['Mode']])
-        elif result['Mode'] == 'Acquisition':
+        else:
             # Write to a CSV file here the aquisition mode so MATLAB can check it
             with open("OutputStatus.csv", "w") as f:
                 writer = csv.writer(f, dialect='excel', lineterminator = '\n')
