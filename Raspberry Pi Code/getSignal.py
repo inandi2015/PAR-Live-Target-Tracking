@@ -15,6 +15,19 @@ import matplotlib.pyplot as plt
 import sys
 import numpy
 
+if sys.platform.startswith("win"):
+    dwf = cdll.dwf
+elif sys.platform.startswith("darwin"):
+    dwf = cdll.LoadLibrary("/Library/Frameworks/dwf.framework/dwf")
+else:
+    dwf = cdll.LoadLibrary("libdwf.so")
+
+#declare ctype variables
+hdwf = c_int()
+sts = c_byte()
+rgdSamples1 = (c_double*4000)()
+rgdSamples2 = (c_double*4000)()
+
 #begin acquisition
 dwf.FDwfAnalogInConfigure(hdwf, c_bool(False), c_bool(True))
 print "   waiting to finish"

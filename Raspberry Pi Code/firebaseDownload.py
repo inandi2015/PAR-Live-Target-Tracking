@@ -23,7 +23,7 @@ class FirebaseDownload:
             # Call driver stuff
             return 'Start'
         elif result['Mode'] == 'Stop':  
-            print("Stopping system...")
+            #print("Stopping system...")
             # Kill everything
             return 'Stop'
         elif result['Mode'] == 'Local':

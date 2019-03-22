@@ -16,8 +16,7 @@ else:
 #declare ctype variables
 hdwf = c_int()
 sts = c_byte()
-rgdSamples1 = (c_double*4000)()
-rgdSamples2 = (c_double*4000)()
+
 #print DWF version
 version = create_string_buffer(16)
 dwf.FDwfGetVersion(version)
