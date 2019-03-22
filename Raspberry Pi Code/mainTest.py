@@ -8,8 +8,11 @@ upload = FirebaseUpload()
 download = FirebaseDownload()
 firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking.firebaseio.com/DEV', None)
 
+waitStart = True
 while True: # Outer loop for keeping radar listening continuously
-    print('Capstone PAR Alpha System waiting for activation...')
+    if waitStart == True:
+        print('Capstone PAR Alpha System waiting for activation...')
+        waitStart = False
     state = download.firebaseDownloadRadar(firebaseProject)
     if state == 'Start':
         upload.firebaseUploadAcquisition(firebaseProject)
@@ -34,4 +37,5 @@ while True: # Outer loop for keeping radar listening continuously
                     subprocess.call('python beamformerAcquire.py', shell=True)
             else:
                 pass
+        waitStart = True
         print("Stopping System")

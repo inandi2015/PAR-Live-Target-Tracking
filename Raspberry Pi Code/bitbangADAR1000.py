@@ -4,7 +4,7 @@ import RPi.GPIO as GPIO
 class ADAR100Beamformer:
     def ADAR1000(self, rw, reg, data, cs):
         retest == True
-        while retest == True
+        while retest == True:
             w = int(rw)
             r = list(bin(int(reg, 16))[2:].zfill(8))
             d = list(bin(int(data, 16))[2:].zfill(8))
@@ -48,7 +48,7 @@ class ADAR100Beamformer:
             GPIO.output(mosi, False)
             GPIO.output(csel, True)
             retest = checkBeamformerValue(reg, data, cs)
-            if retest == False
+            if retest == False:
                 if w:
                     print response
                     return response

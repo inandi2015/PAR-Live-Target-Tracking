@@ -1,1 +1,5 @@
-print "Acquiring"
+def acquire():
+    print "Acquiring"
+    return "Acquiring"
+
+acquire()
