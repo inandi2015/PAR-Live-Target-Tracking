@@ -6,6 +6,7 @@ from firebase import firebase
 upload = FirebaseUpload()
 download = FirebaseDownload()
 firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking.firebaseio.com/DEV', None)
+subprocess.call('python initializeAD.py', shell=True)
 
 while True: # Outer loop for keeping radar listening continuously
     print('Capstone PAR Alpha System waiting for activation...')
