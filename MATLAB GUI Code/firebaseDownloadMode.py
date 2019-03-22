@@ -14,7 +14,7 @@ def firebaseDownloadLocal(firebaseProject):
     print(result['Mode'])
     
     # Write to a CSV file here the aquisition mode so MATLAB can check it
-    with open(str("OutputStatus.csv", "w") as f:
+    with open("OutputStatus.csv", "w") as f:
         writer = csv.writer(f, dialect='excel', lineterminator = '\n')
         writer.writerow([result['Mode']])
 

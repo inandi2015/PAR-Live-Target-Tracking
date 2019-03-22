@@ -10,10 +10,7 @@ class FirebaseDownload:
     ### LOCAL MODULES ###
 
     def firebaseDownloadLocal(self, firebaseProject):
-        while True:
-            result = firebaseProject.get('/DEV', 'SignalData')
-            if result['Mode'] == 'Tracking' or result['Mode'] == 'Acquisition':
-                break
+        result = firebaseProject.get('/DEV', 'SignalData')
             
         print(result['Channel1'])
         print(result['Channel2'])
@@ -24,24 +21,24 @@ class FirebaseDownload:
             dataOut1 = numpy.asarray(result['Channel1']) # Convert result data from database into an array
             dataOut1 = dataOut1.reshape(len(dataOut1), 1) # Shape data for putting in one column of csv file
 
-            with open(str("Output1.csv", "w") as f:
+            with open("Output1.csv", "w") as f:
                 writer = csv.writer(f, dialect='excel', lineterminator = '\n')
                 writer.writerows(dataOut1)
 
             dataOut2 = numpy.asarray(result['Channel2']) # Convert result data from database into an array
             dataOut2 = dataOut2.reshape(len(dataOut2), 1) # Shape data for putting in one column of csv file
 
-            with open(str("Output2.csv", "w") as f:
+            with open("Output2.csv", "w") as f:
                 writer = csv.writer(f, dialect='excel', lineterminator = '\n')
                 writer.writerows(dataOut2)
             
             # Write to a CSV file here the tracking mode so MATLAB can check it
-            with open(str("OutputStatus.csv", "w") as f:
+            with open("OutputStatus.csv", "w") as f:
                 writer = csv.writer(f, dialect='excel', lineterminator = '\n')
                 writer.writerow([result['Mode']])
         elif result['Mode'] == 'Acquisition':
             # Write to a CSV file here the aquisition mode so MATLAB can check it
-            with open(str("OutputStatus.csv", "w") as f:
+            with open("OutputStatus.csv", "w") as f:
                 writer = csv.writer(f, dialect='excel', lineterminator = '\n')
                 writer.writerow([result['Mode']])
         
