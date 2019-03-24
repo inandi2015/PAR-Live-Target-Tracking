@@ -15,8 +15,8 @@ class FirebaseDownload:
             if result['Mode'] == 'Start' or result['Mode'] == 'Stop' or result['Mode'] == 'Local':
                 break
 
-        print(result['Mode'])
-        print(result['PhaseDifference'])
+        #print(result['Mode'])
+        #print(result['PhaseDifference'])
         
         if result['Mode'] == 'Start':
             print("Starting system...")

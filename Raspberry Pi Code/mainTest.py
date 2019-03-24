@@ -9,6 +9,7 @@ download = FirebaseDownload()
 firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking.firebaseio.com/DEV', None)
 
 waitStart = True
+print("Starting program")
 while True: # Outer loop for keeping radar listening continuously
     if waitStart == True:
         print('Capstone PAR Alpha System waiting for activation...')
@@ -26,8 +27,10 @@ while True: # Outer loop for keeping radar listening continuously
                 trackingResult = 'Success'
                 if trackingResult == 'Success':
                     subprocess.call('python AnalogIn_Acquisition_2Channel.py', shell=True)
-                    if('Stop'):
+                    state = download.firebaseDownloadRadar(firebaseProject)
+                    if state == 'Stop':
                         break
+                    print("Uploading tracking data")
                     upload.firebaseUploadTracking(firebaseProject) 
                 elif trackingResult == 'Fail':
                     upload.firebaseUploadAcquisition(firebaseProject)
