@@ -17,7 +17,7 @@ while True: # Outer loop for keeping radar listening continuously
     if state == 'Start':
         upload.firebaseUploadAcquisition(firebaseProject)
         subprocess.call('python beamformerAcquire.py', shell=True)
-        time.sleep(15)
+        time.sleep(5)
         upload.firebaseUploadTracking(firebaseProject)
         while state != 'Stop': 
             state = download.firebaseDownloadRadar(firebaseProject) # Wait for state to be local

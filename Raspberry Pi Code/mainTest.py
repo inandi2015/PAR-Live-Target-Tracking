@@ -9,6 +9,7 @@ download = FirebaseDownload()
 firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking.firebaseio.com/DEV', None)
 
 waitStart = True
+adResult = 'Fail'
 print("Starting program")
 while True: # Outer loop for keeping radar listening continuously
     if waitStart == True:
@@ -18,7 +19,7 @@ while True: # Outer loop for keeping radar listening continuously
     if state == 'Start':
         upload.firebaseUploadAcquisition(firebaseProject)
         subprocess.call('python beamformerAcquire.py', shell=True)
-        time.sleep(15)
+        time.sleep(5)
         upload.firebaseUploadTracking(firebaseProject)
         while state != 'Stop': 
             state = download.firebaseDownloadRadar(firebaseProject) # Wait for state to be local
@@ -26,11 +27,17 @@ while True: # Outer loop for keeping radar listening continuously
                 #subprocess.call('python beamformerSweep.py 90', shell=True)
                 trackingResult = 'Success'
                 if trackingResult == 'Success':
-                    subprocess.call('python AnalogIn_Acquisition_2Channel.py', shell=True)
+                    while adResult == 'Fail'
+                        adResult = subprocess.subprocess.check_output('python AnalogIn_Acquisition_2Channel.py', shell=True).decode('ascii')
+                        if adResult == 'Fail':
+                            print("Analog Discovery failed. Retrying...")
+                        else 
+                            print("Analog Discovery data acquired!")
+                    adResult = 'Fail'   
                     state = download.firebaseDownloadRadar(firebaseProject)
                     if state == 'Stop':
                         break
-                    print("Uploading tracking data")
+                    print("Uploading tracking data...")
                     upload.firebaseUploadTracking(firebaseProject) 
                 elif trackingResult == 'Fail':
                     upload.firebaseUploadAcquisition(firebaseProject)
