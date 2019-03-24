@@ -64,8 +64,6 @@ while True:
     dwf.FDwfAnalogInStatus(hdwf, c_int(1), byref(sts))
     print "STS VAL: " + str(sts.value) + "STS DONE: " + str(DwfStateDone.value)
     if sts.value == DwfStateDone.value :
-        break
-    else 
         return "Fail"
     time.sleep(0.1)
 print "Acquisition finished"
