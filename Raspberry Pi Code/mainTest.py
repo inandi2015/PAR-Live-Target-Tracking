@@ -31,7 +31,7 @@ while True: # Outer loop for keeping radar listening continuously
                         adResult = subprocess.subprocess.check_output('python AnalogIn_Acquisition_2Channel.py', shell=True).decode('ascii')
                         if adResult == 'Fail':
                             print("Analog Discovery failed. Retrying...")
-                        else 
+                        else: 
                             print("Analog Discovery data acquired!")
                     adResult = 'Fail'   
                     state = download.firebaseDownloadRadar(firebaseProject)
