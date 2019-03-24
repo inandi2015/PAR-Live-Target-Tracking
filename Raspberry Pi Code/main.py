@@ -25,7 +25,8 @@ while True: # Outer loop for keeping radar listening continuously
                 trackingResult = subprocess.check_output('python beamformerTrack.py', shell=True).decode('ascii')
                 if trackingResult == 'Success':
                     subprocess.call('python AnalogIn_Acquisition_2Channel.py', shell=True)
-                    if('Stop'):
+                    state = download.firebaseDownloadRadar(firebaseProject)
+                    if state == 'Stop':
                         break
                     upload.firebaseUploadTracking(firebaseProject) 
                 elif trackingResult == 'Fail':
