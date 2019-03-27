@@ -64,7 +64,8 @@ class ADAR100Beamformer:
             index = index + 1
         return True
 
-
+beamformer = ADAR100Beamformer()
+beamformer.ADAR1000()
 # Tester: 
 # while True:
 # 	ADAR1000(1, "A", "55", 0)  

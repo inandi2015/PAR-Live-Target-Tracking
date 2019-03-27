@@ -96,16 +96,6 @@ def Init_ADAR1000():
         beamformer.ADAR1000Beamformer(0,ch,0x7F,1)
         time.sleep(0.1)
 
-# Load the TX amplitude/phase settings
-def Set_TX():
-    # Load phase settings
-    beamformer.ADAR1000Beamformer(0,0x28,0x02,0)# LD_WRK_REGS
-    beamformer.ADAR1000Beamformer(0,0x28,0x02,1)
-
-    # Clear TX Load
-    beamformer.ADAR1000Beamformer(0,0x28,0x00,0)
-    beamformer.ADAR1000Beamformer(0,0x28,0x00,1)
-
 # Calculate the I and Q register values and set each channel
 def BeamSteering(angle):
     elements = range(0,8)
