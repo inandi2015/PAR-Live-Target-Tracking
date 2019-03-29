@@ -35,8 +35,8 @@ Q_array = [0x20, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2
 
 def ADAR1000(rw, reg, data, cs):
     w = int(rw)
-    r = list(bin(int(reg, 16))[2:].zfill(8))
-    d = list(bin(int(data, 16))[2:].zfill(8))
+    r = list(bin(int(reg, 16))[2:].zfill(12))
+    d = list(bin(int(data, 16))[2:].zfill(12))
 
     #print w  
     #print r  
@@ -53,7 +53,7 @@ def ADAR1000(rw, reg, data, cs):
     
     GPIO.output(csel, False)#22
 
-    bits = [w,0,0,0,0,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
+    bits = [w,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],r[8],r[9],r[10],r[11],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
     response = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     
     for i in range(len(bits)):
