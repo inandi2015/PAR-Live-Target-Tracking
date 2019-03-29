@@ -33,10 +33,10 @@ def ADAR1004(rw, reg, data, cs):
         print r
         
         print d
-    if (cs==0):
-        csel = cs0
-    else:
-        csel = cs1
+        if (cs==0):
+            csel = cs0
+        else:
+            csel = cs1
 
           
         for i in range(len(r)):
@@ -49,29 +49,29 @@ def ADAR1004(rw, reg, data, cs):
         response = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         
         for i in range(len(bits)):
-        if bits[i] == 1:
-        GPIO.output(mosi, True)
+            if bits[i] == 1:
+                GPIO.output(mosi, True)
                 time.sleep(0.00000000000001)
-        GPIO.output(clock, True)
-            time.sleep(0.000000000001)
-            response[i] = GPIO.input(miso)
-        GPIO.output(clock, False)
-            if i == 23:
-                break
-        else:
-            GPIO.output(mosi, bits[i+1])
-        time.sleep(0.000000000001)
+                GPIO.output(clock, True)
+                time.sleep(0.000000000001)
+                response[i] = GPIO.input(miso)
+                GPIO.output(clock, False)
+                if i == 23:
+                    break
+            else:
+                GPIO.output(mosi, bits[i+1])
+                time.sleep(0.000000000001)
     
-        GPIO.output(mosi, False)
-        GPIO.output(csel, True)
+            GPIO.output(mosi, False)
+            GPIO.output(csel, True)
         if w:
-            print response
+                print response
         return
 
 
 #ADAR1004(0,"0","99",0)
 ADAR1004(0,"A","55",0)
-while true:
+while True:
     ADAR1004(1,"A","00",0)
 
 

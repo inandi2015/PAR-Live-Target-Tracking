@@ -60,7 +60,7 @@ class ADAR100Beamformer:
         d = list(bin(int(dataCheck, 16))[2:].zfill(8))
         for i in range(17, 24):
             index = 0
-            if d[index] != response[i]
+            if d[index] != response[i]:
                 return False
             index = index + 1
         return True
