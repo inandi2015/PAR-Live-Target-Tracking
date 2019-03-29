@@ -84,7 +84,7 @@ def checkBeamformerValue(reg, dataCheck, cs):
 ADAR1000(0, "A", "55", 0)
 # Tester: 
 while True:
-	ADAR1000(1, "A", "55", 0)  
+    ADAR1000(1, "A", "55", 0)  
 
 # ADAR1000(0, "0", "99", 0)	
 # ADAR1000(0, "A", "55", 0)

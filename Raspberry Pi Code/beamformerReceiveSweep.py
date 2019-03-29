@@ -9,23 +9,7 @@ beamformer = ADAR100Beamformer()
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
-global clock, miso, mosi, cs0, cs1, host, port, server, client, position
-global TX_CH1, TX_CH2, TX_CH3, TX_CH4
-global TX_CH1_I, TX_CH1_Q, TX_CH2_I, TX_CH2_Q, TX_CH3_I, TX_CH3_Q, TX_CH4_I, TX_CH4_Q
-
-TX_CH1_I = 0x20
-TX_CH1_Q = 0x21
-TX_CH2_I = 0x22
-TX_CH2_Q = 0x23
-TX_CH3_I = 0x24
-TX_CH3_Q = 0x25
-TX_CH4_I = 0x26
-TX_CH4_Q = 0x27 
-
-TX_CH1 = [TX_CH1_I,TX_CH1_Q]
-TX_CH2 = [TX_CH2_I,TX_CH2_Q]
-TX_CH3 = [TX_CH3_I,TX_CH3_Q]
-TX_CH4 = [TX_CH4_I,TX_CH4_Q]
+global clock, miso, mosi, cs0, cs1
 
 clock = 17 # spi clock
 miso = 18  # spi miso

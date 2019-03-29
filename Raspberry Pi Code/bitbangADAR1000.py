@@ -54,7 +54,7 @@ class ADAR100Beamformer:
                     return response
                 return
     
-    def checkBeamformerValue(self, reg, dataCheck, cs):
+    def checkBeamformerValue(reg, dataCheck, cs):
         response = ADAR1000(1, reg, "00", cs)
         d = list(bin(int(dataCheck, 16))[2:].zfill(8))
         for i in range(17, 24):
@@ -64,6 +64,8 @@ class ADAR100Beamformer:
             index = index + 1
         return True
 
+
+# COMMENT OUT WHEN USING IT AS A CLASS
 beamformer = ADAR100Beamformer()
 beamformer.ADAR1000()
 # Tester: 
