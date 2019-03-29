@@ -256,4 +256,4 @@ Init_ADAR1004()
 #for angle in (range(b_start, b_end, b_increment)): # at each postion, loop through the beam angles
 #    BeamSteering(angle)
 
-BeamSteering(0)
+#BeamSteering(0)
