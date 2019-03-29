@@ -48,6 +48,7 @@ class ADAR100Beamformer:
             GPIO.output(mosi, False)
             GPIO.output(csel, True)
             retest = checkBeamformerValue(reg, data, cs)
+            retest = False # COMMENT OUT
             if retest == False:
                 if w:
                     print response

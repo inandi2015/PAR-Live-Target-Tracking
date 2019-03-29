@@ -5,10 +5,11 @@ GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
 
 global clock, miso, mosi, cs0, cs1
-clock = 17
-miso = 18
-mosi = 27
-cs0 = 22
+clock = 17 # spi clock
+miso = 18  # spi miso
+mosi = 27  # spi mosi
+cs0 = 22   # chip sel 0
+cs1 = 23   # chip sel 1
 
 GPIO.setup(clock, GPIO.OUT) # Set pin to output
 GPIO.output(clock, False) # Set pin to low ("False")
@@ -64,6 +65,7 @@ def ADAR1000(rw, reg, data, cs):
         GPIO.output(mosi, False)
         GPIO.output(csel, True)
         retest = checkBeamformerValue(reg, data, cs)
+        retest = False # COMMENT OUT
         if retest == False:
             if w:
                 print response
