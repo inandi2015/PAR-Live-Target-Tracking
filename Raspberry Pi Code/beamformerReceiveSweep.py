@@ -68,7 +68,7 @@ def Init_ADAR1000():
     time.sleep(writeDelay)
 
     #Set RX LNA bias to 8
-    beamformer.ADAR1000Beamformer(0,0x34,0x08,0) # TX_ENABLES
+    beamformer.ADAR1000Beamformer(0,0x34,0x08,0) 
     time.sleep(writeDelay)
     beamformer.ADAR1000Beamformer(0,0x34,0x08,1)
     time.sleep(writeDelay)
