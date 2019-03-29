@@ -102,7 +102,7 @@ def Init_ADAR1000():
     time.sleep(writeDelay)
     ADAR1000(0,"0x38","0x60",1)
     time.sleep(writeDelay)
-"
+
     # Enable LNA
     ADAR1000(0,"0x2E","0x7F",0) 
     time.sleep(writeDelay)
