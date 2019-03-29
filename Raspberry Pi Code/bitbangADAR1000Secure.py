@@ -18,7 +18,7 @@ GPIO.output(mosi, False)
 GPIO.setup(cs0, GPIO.OUT) # Set pin to output
 GPIO.output(cs0, True)
 
-def ADAR1000(self, rw, reg, data, cs):
+def ADAR1000(rw, reg, data, cs):
     retest == True
     while retest == True:
         w = int(rw)
@@ -70,7 +70,7 @@ def ADAR1000(self, rw, reg, data, cs):
                 return response
             return
 
-def checkBeamformerValue(self, reg, dataCheck, cs):
+def checkBeamformerValue(reg, dataCheck, cs):
     response = ADAR1000(1, reg, "00", cs)
     d = list(bin(int(dataCheck, 16))[2:].zfill(8))
     for i in range(17, 24):

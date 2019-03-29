@@ -44,112 +44,198 @@ GPIO.output(cs0, True) # chip select lines are active low
 GPIO.setup(cs1, GPIO.OUT)
 GPIO.output(cs1, True)
 
-# ADAR1000 TX Channel setup
+#********************* T a b l e   o f  P h a s e  S e t t i n g s ************
+angle_array = [0, 2.813, 5.625, 8.438, 11.25, 14.063, 16.875, 19.688, 22.5, 25.313, 28.125, 30.938, 33.75, 36.563, 39.375, 42.188, 45, 47.813, 50.625, 53.438, 56.25, 59.063, 61.875, 64.688, 67.5, 70.313, 73.125, 75.938, 78.75, 81.563, 84.375, 87.188, 90, 92.813, 95.625, 98.438, 101.25, 104.063, 106.875, 109.688, 112.5, 115.313, 118.125, 120.938, 123.75, 126.563, 129.375, 132.188, 135, 137.813, 140.625, 143.438, 146.25, 149.063, 151.875, 154.688, 157.5, 160.313, 163.125, 165.938, 168.75, 171.563, 174.375, 177.188, 180, 182.813, 185.625, 188.438, 191.25, 194.063, 196.875, 199.688, 202.5, 205.313, 208.125, 210.938, 213.75, 216.563, 219.375, 222.188, 225, 227.813, 230.625, 233.438, 236.25, 239.063, 241.875, 244.688, 247.5, 250.313, 253.125, 255.938, 258.75, 261.563, 264.375, 267.188, 270, 272.813, 275.625, 278.438, 281.25, 284.063, 286.875, 289.688, 292.5, 295.313, 298.125, 300.938, 303.75, 306.563, 309.375, 312.188, 315, 317.813, 320.625, 323.438, 326.25, 329.063, 331.875, 334.688, 337.5, 340.313, 343.125, 345.938, 348.75, 351.563, 354.375, 357.188]
+I_array = [0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3E, 0x3E, 0x3D, 0x3D, 0x3C, 0x3C, 0x3B, 0x3A, 0x39, 0x38, 0x37, 0x36, 0x35, 0x34, 0x33, 0x32, 0x30, 0x2F, 0x2E, 0x2C, 0x2B, 0x2A, 0x28, 0x27, 0x25, 0x24, 0x22, 0x21, 0x1, 0x3, 0x4, 0x6, 0x7, 0x8, 0xA, 0xB, 0xD, 0xE, 0xF, 0x11, 0x12, 0x13, 0x14, 0x16, 0x17, 0x18, 0x19, 0x19, 0x1A, 0x1B, 0x1C, 0x1C, 0x1D, 0x1E, 0x1E, 0x1E, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1E, 0x1E, 0x1D, 0x1D, 0x1C, 0x1C, 0x1B, 0x1A, 0x19, 0x18, 0x17, 0x16, 0x15, 0x14, 0x13, 0x12, 0x10, 0xF, 0xE, 0xC, 0xB, 0xA, 0x8, 0x7, 0x5, 0x4, 0x2, 0x1, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2F, 0x31, 0x32, 0x33, 0x34, 0x36, 0x37, 0x38, 0x39, 0x39, 0x3A, 0x3B, 0x3C, 0x3C, 0x3D, 0x3E, 0x3E, 0x3E, 0x3F, 0x3F, 0x3F]
+Q_array = [0x20, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x38, 0x39, 0x3A, 0x3A, 0x3B, 0x3C, 0x3C, 0x3C, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3C, 0x3C, 0x3C, 0x3B, 0x3A, 0x3A, 0x39, 0x38, 0x38, 0x37, 0x36, 0x35, 0x34, 0x33, 0x31, 0x30, 0x2F, 0x2E, 0x2D, 0x2B, 0x2A, 0x28, 0x27, 0x26, 0x24, 0x23, 0x21, 0x20, 0x1, 0x3, 0x4, 0x6, 0x7, 0x8, 0xA, 0xB, 0xD, 0xE, 0xF, 0x10, 0x11, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x18, 0x19, 0x1A, 0x1A, 0x1B, 0x1C, 0x1C, 0x1C, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1C, 0x1C, 0x1C, 0x1B, 0x1A, 0x1A, 0x19, 0x18, 0x18, 0x17, 0x16, 0x15, 0x14, 0x13, 0x11, 0x10, 0xF, 0xE, 0xD, 0xB, 0xA, 0x8, 0x7, 0x6, 0x4, 0x3, 0x1]
+
+# ADAR1000 RX Channel setup
 def Init_ADAR1000():
-    # Reset all registers and enable 4-wire mode
-    beamformer.ADAR1000Beamformer(0,0x00,0x99,0)
+    ## Initializing ADAR1000 RX_1 for signal input ##
+
+    # Reset the whole board
+    beamformer.ADAR1000Beamformer(0,0x00,0x81,0)
     time.sleep(0.1)
-    beamformer.ADAR1000Beamformer(0,0x00,0x99,1)
+    beamformer.ADAR1000Beamformer(0,0x00,0x81,1)
+    time.sleep(0.1)
+
+    # Configure the whole board for SPI communication
+    beamformer.ADAR1000Beamformer(0,0x00,0x18,0)
+    time.sleep(0.1)
+    beamformer.ADAR1000Beamformer(0,0x00,0x18,1)
     time.sleep(0.1)
     
-    # Set 1.8v LDO output
+    # Set 1.8v LDO output (Adjust LDOs)
     beamformer.ADAR1000Beamformer(0,0x400,0x55,0) # LDO_TRIM_CTRL_0
     time.sleep(0.1)
     beamformer.ADAR1000Beamformer(0,0x400,0x55,1)
     time.sleep(0.1)
 
-    # Set TX VM and VGA current to nominal bias
-    beamformer.ADAR1000Beamformer(0,0x40,0x1E,0) # TX_BIAS_CURRENT_1
+    # Select SPI for channel settings
+    beamformer.ADAR1000Beamformer(0,0x38,0x60,0)
     time.sleep(0.1)
-    beamformer.ADAR1000Beamformer(0,0x40,0x1E,1)
-    time.sleep(0.1)
-
-    # Set TX DRV and LNA current to nominal bias
-    beamformer.ADAR1000Beamformer(0,0x41,0x39,0) # TX_BIAS_CURRENT_2
-    time.sleep(0.1)
-    beamformer.ADAR1000Beamformer(0,0x41,0x39,1)
+    beamformer.ADAR1000Beamformer(0,0x38,0x60,1)
     time.sleep(0.1)
 
-    # Enables TX subcircuit (All Chanels)
-    beamformer.ADAR1000Beamformer(0,0x37,0xFF,0) # TX_ENABLES
+    # Enable LNA
+    beamformer.ADAR1000Beamformer(0,0x2E,0x7F,0) 
     time.sleep(0.1)
-    beamformer.ADAR1000Beamformer(0,0x37,0xFF,1)
-    time.sleep(0.1)
-
-    # TX Enable
-    beamformer.ADAR1000Beamformer(0,0x29,0x12,0) # TR_CTRL
-    time.sleep(0.1)
-    beamformer.ADAR1000Beamformer(0,0x29,0x12,1)
+    beamformer.ADAR1000Beamformer(0,0x2E,0x7F,1)
     time.sleep(0.1)
 
-    # Sets phase/amplitude to ram bypass (load over SPI)
-    beamformer.ADAR1000Beamformer(0,0x4B,0x40,0) # MEM_CTRL
+    #Set RX LNA bias to 8
+    beamformer.ADAR1000Beamformer(0,0x34,0x08,0) # TX_ENABLES
     time.sleep(0.1)
-    beamformer.ADAR1000Beamformer(0,0x4B,0x40,1)
+    beamformer.ADAR1000Beamformer(0,0x34,0x08,1)
     time.sleep(0.1)
+
+    #Set RX VGA bias to 2
+    beamformer.ADAR1000Beamformer(0,0x35,0x16,0) 
+    time.sleep(0.1)
+    beamformer.ADAR1000Beamformer(0,0x35,0x16,1)
+    time.sleep(0.1)
+
+    # Enables the whole Rx 
+    beamformer.ADAR1000Beamformer(0,0x31,0x20,0) 
+    time.sleep(0.1)
+    beamformer.ADAR1000Beamformer(0,0x31,0x20,1)
+    time.sleep(0.1)
+
+    # Loads the Rx working registers from the SPI 
+    beamformer.ADAR1000Beamformer(0,0x28,0x01,0) 
+    time.sleep(0.1)
+    beamformer.ADAR1000Beamformer(0,0x28,0x01,1)
+    time.sleep(0.1)
+
+def phaseShift(angle):
+    wavelength = 2.778 #cm
+    eDist = 1.5 #Distance between each patch antenna elements in centimeters
+    plane = 360
     
-    # Set TX gain to max, attn to bypass
-    TX_gain = [0x1C,0x1D,0x1E,0x1F] # TX_GAIN reg ch 1, 2, 3, 4
-    for ch in TX_gain:
-        beamformer.ADAR1000Beamformer(0,ch,0x7F,0)
-        time.sleep(0.1)
-        beamformer.ADAR1000Beamformer(0,ch,0x7F,1)
-        time.sleep(0.1)
+    #Constant for phase increment. ref: http://www.radartutorial.eu/06.antennas/Phased%20Array%20Antenna.en.html
+    pCon = ( plane * eDist ) / wavelength
+    #Use formula to calculate phase shift. ref: above
+    pShift = pCon * math.sin(math.radians(angle))
+    return pShift
 
 # Calculate the I and Q register values and set each channel
 def BeamSteering(angle):
-    elements = range(0,8)
-    e_angle = range(0,8)
-    # element # [angle, Channel, core chip]
-    elements[0] = [e_angle[0], TX_CH2, 1]
-    elements[1] = [e_angle[1], TX_CH2, 0]
-    elements[2] = [e_angle[2], TX_CH1, 1]
-    elements[3] = [e_angle[3], TX_CH1, 0]
-    elements[4] = [e_angle[4], TX_CH4, 0]
-    elements[5] = [e_angle[5], TX_CH4, 1]
-    elements[6] = [e_angle[6], TX_CH3, 0]
-    elements[7] = [e_angle[7], TX_CH3, 1]
+    #Calculate phase shift between two elements
+    pshift = phaseShift(angle) 
+    #print "angle "+ str(angle) +"\tpshift: " + str(pshift)
+    #Copy list of angles into a numerical python array
+    phases = np.asarray(angle_array)
+    plane = 360
     
-    element_spacing = 0.5
-    numBits = 5
-    zmax = 1.00381984
-    angle_const = 5*pi/180 # 5 is changable
-    db_const = 10**(0/20) # 0 is changable
+    #****************** B o a r d A - RX_1  **************** 
+    # 
+    #Set the first antenna to 0 degrees    
     
-    rad = angle*pi/180 #round to 2 places
-    phase_shift = element_spacing*sin(rad)*360
-    
-    e_angle[4] = 0.0
-    for i in [5,6,7]:
-        e_angle[i] = (e_angle[i-1]+phase_shift)%360
-    for i in [3,2,1,0]:
-        e_angle[i] = (e_angle[i+1]-phase_shift)%360
+    #//////////////////////////////////////////////////
+    index = (np.abs(phases-angle)).argmin()
+    #Write to Registers 
+    beamformer.ADAR1000Beamformer(0,0x10,0xFF,0) #Ch1_RX_GAIN
+    #time.sleep(0.1) # add if needed in between everything
+    beamformer.ADAR1000Beamformer(0,0x14,I_array[index],0) #CH1_RX_PHASE_I
+    beamformer.ADAR1000Beamformer(0,0x15,Q_array[index],0) #CH1_RX_PHASE_Q
+    beamformer.ADAR1000Beamformer(0,0x28,0x01,0) #Load Work Registers
 
-    for i in range(0,8):  
-        print e_angle[i]   
-        phase_rad = e_angle[i]*pi/180 #round to 2 places   
-        y = (db_const/(cos(angle_const)))*sin(phase_rad)
-        x = (1-tan(phase_rad)*tan(angle_const))*cos(phase_rad)
-        y_= round(y/zmax,5)
-        x_= round(x/zmax,5)
-        
-        I_bits = round(abs(x_*(2**numBits-1)),0)
-        Q_bits = round(abs(y_*(2**numBits-1)),0)
 
-        Ipol = 0
-        Qpol = 0
-        if (x_ >= 0):
-            Ipol = 1
-        if (y_ >= 0):
-            Qpol = 1         
-        
-        I_val = I_bits+(Ipol<<5)
-        Q_val = Q_bits+(Qpol<<5)
-        
-        beamformer.ADAR1000Beamformer(0,elements[i][1][0], int(I_val), elements[i][2])
-        beamformer.ADAR1000Beamformer(0,elements[i][1][1], int(Q_val), elements[i][2])
-        
-    Set_TX()
+    #****************** B o a r d A - RX_2  **************** 
+    
+    #Map the angle to a value between 0 and 360 degrees
+    aE2Shift = pshift % plane   
+    index = (np.abs(phases-aE2Shift)).argmin()
+    #print str(angle_array[index])+'\t'+str(aE2Shift)+'\t'+str(I_array[index]) + '\t'+ str(Q_array[index]) 
+    #Write to Registers 
+    beamformer.ADAR1000Beamformer(0,0x11,0xFF,0) #Ch2_RX_GAIN
+    beamformer.ADAR1000Beamformer(0,0x16,I_array[index],0) #CH2_RX_PHASE_I
+    beamformer.ADAR1000Beamformer(0,0x17,Q_array[index],0) #CH2_RX_PHASE_Q
+    beamformer.ADAR1000Beamformer(0,0x28,0x01,0) #Load Work Registers
+    
+
+    #****************** B o a r d A - RX_3  **************** 
+
+    #Apply phase shift to next antenna  
+    #Map the angle to a value between 0 and 360 degrees
+    aE3Shift = (2 * pshift) % plane
+    index = (np.abs(phases-aE3Shift)).argmin()
+    #print str(angle_array[index])+'\t'+str(aE3Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
+    #Write to Registers
+    beamformer.ADAR1000Beamformer(0,0x12,0xFF,0) #Ch3_RX_GAIN
+    beamformer.ADAR1000Beamformer(0,0x18,I_array[index],0) #CH3_RX_PHASE_I
+    beamformer.ADAR1000Beamformer(0,0x19,Q_array[index],0) #CH3_RX_PHASE_Q
+    beamformer.ADAR1000Beamformer(0,0x28,0x01,0) #Load Work Registers
+
+
+    #****************** B o a r d A - RX_4  **************** 
+
+    #Apply phase shift to next antenna  
+    #Map the angle to a value between 0 and 360 degrees
+    aE4Shift = (3 * pshift) % plane
+    index = (np.abs(phases-aE4Shift)).argmin()
+    #print str(angle_array[index])+'\t'+str(aE4Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
+    #Write to Registers
+    beamformer.ADAR1000Beamformer(0,0x13,0xFF,0) #Ch4_RX_GAIN
+    beamformer.ADAR1000Beamformer(0,0x1A,I_array[index],0) #CH4_RX_PHASE_I
+    beamformer.ADAR1000Beamformer(0,0x1B,Q_array[index],0) #CH4_RX_PHASE_Q
+    beamformer.ADAR1000Beamformer(0,0x28,0x01,0) #Load Work Registers
+
+
+    #****************** B o a r d B - RX_1  **************** 
+
+    #Apply phase shift to next antenna  
+    #Map the angle to a value between 0 and 360 degrees
+    bE1Shift = (4 * pshift) % plane
+    index = (np.abs(phases-bE1Shift)).argmin()
+    #print str(angle_array[index])+'\t'+str(bE1Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
+    #Write to Registers
+    beamformer.ADAR1000Beamformer(0,0x10,0xFF,1) #Ch5_RX_GAIN
+    beamformer.ADAR1000Beamformer(0,0x14,I_array[index],1) #CH5_RX_PHASE_I
+    beamformer.ADAR1000Beamformer(0,0x15,Q_array[index],1) #CH5_RX_PHASE_Q
+    beamformer.ADAR1000Beamformer(0,0x28,0x01,1) #Load Work Registers
+
+
+    #****************** B o a r d B - RX_2  **************** 
+
+    #Apply phase shift to next antenna  
+    #Map the angle to a value between 0 and 360 degrees
+    bE2Shift = (5 * pshift) % plane
+    index = (np.abs(phases-bE2Shift)).argmin()
+    #print str(angle_array[index])+'\t'+str(bE2Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
+    #Write to Registers
+    beamformer.ADAR1000Beamformer(0,0x11,0xFF,1) #Ch6_RX_GAIN
+    beamformer.ADAR1000Beamformer(0,0x16,I_array[index],1) #CH6_RX_PHASE_I
+    beamformer.ADAR1000Beamformer(0,0x17,Q_array[index],1) #CH6_RX_PHASE_Q
+    beamformer.ADAR1000Beamformer(0,0x28,0x01,1) #Load Work Registers
+
+
+    #****************** B o a r d B - RX_3  **************** 
+
+    #Apply phase shift to next antenna  
+    #Map the angle to a value between 0 and 360 degrees
+    bE3Shift = (6 * pshift) % plane
+    index = (np.abs(phases-bE3Shift)).argmin()
+    #print str(angle_array[index])+'\t'+str(bE3Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
+    #Write to Registers
+    beamformer.ADAR1000Beamformer(0,0x12,0xFF,1) #Ch7_RX_GAIN
+    beamformer.ADAR1000Beamformer(0,0x18,I_array[index],1) #CH7_RX_PHASE_I
+    beamformer.ADAR1000Beamformer(0,0x19,Q_array[index],1) #CH7_RX_PHASE_Q
+    beamformer.ADAR1000Beamformer(0,0x28,0x01,1) #Load Work Registers
+
+
+    #****************** B o a r d B - RX_4  **************** 
+
+    #Apply phase shift to next antenna  
+    #Map the angle to a value between 0 and 360 degrees
+    bE4Shift = (7 * pshift) % plane
+    index = (np.abs(phases-bE4Shift)).argmin()  
+    #print str(angle_array[index])+'\t'+str(bE4Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
+    #Write to Registers
+    beamformer.ADAR1000Beamformer(0,0x13,0xFF,1) #Ch8_RX_GAIN
+    beamformer.ADAR1000Beamformer(0,0x1A,I_array[index],1) #CH8_RX_PHASE_I
+    beamformer.ADAR1000Beamformer(0,0x1B,Q_array[index],1) #CH8_RX_PHASE_Q
+    beamformer.ADAR1000Beamformer(0,0x28,0x01,1) #Load Work Registers
 
 print "Initalizing ADAR1004..."
 Init_ADAR1004()
