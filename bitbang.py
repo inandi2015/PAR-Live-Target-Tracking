@@ -22,6 +22,8 @@ GPIO.setup(mosi, GPIO.OUT) #Set limit switch as input
 GPIO.output(mosi, False)
 GPIO.setup(cs0, GPIO.OUT)
 GPIO.output(cs0, True)
+GPIO.setup(cs1, GPIO.OUT)
+GPIO.output(cs1, True)
 
 
 def ADAR1000(rw, reg, data, cs):
@@ -29,9 +31,9 @@ def ADAR1000(rw, reg, data, cs):
     r = list(bin(int(reg, 16))[2:].zfill(8))
     d = list(bin(int(data, 16))[2:].zfill(8))
 
-    print w  
-    print r  
-    print d
+    #print w  
+    #print r  
+    #print d
 
     if (cs==0):
         csel = cs0
@@ -55,23 +57,21 @@ def ADAR1000(rw, reg, data, cs):
             time.sleep(0.000000000001)
             response[i] = GPIO.input(miso)
             GPIO.output(clock, False)
-            if i == 23:
-                break
+        if i == 23:
+            break
         else:
             GPIO.output(mosi, bits[i+1])
             time.sleep(0.000000000001)
 
-        GPIO.output(mosi, False)
-        GPIO.output(csel, True)
-    if w:
-        print response
+    GPIO.output(mosi, False)
+    GPIO.output(csel, True)
+    print response
     return
 
 
-#ADAR1004(0,"0","99",0)
-ADAR1000(0,"A","55",0)
-while True:
-    ADAR1000(1,"A","00",0)
+#ADAR1000(0,"A","63",1)
+#while True:
+#    ADAR1000(1,"A","63",1)
 
 
 

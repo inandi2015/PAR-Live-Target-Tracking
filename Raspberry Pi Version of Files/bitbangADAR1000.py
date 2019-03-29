@@ -9,6 +9,7 @@ clock = 17
 miso = 18
 mosi = 27
 cs0 = 22
+cs1 = 23
 
 GPIO.setup(clock, GPIO.OUT) # Set pin to output
 GPIO.output(clock, False) # Set pin to low ("False")
@@ -62,16 +63,18 @@ def ADAR1000(rw, reg, data, cs):
         
     GPIO.output(mosi, False)
     GPIO.output(csel, True)
-    print response
+    if w:
+        print response
     return
 
+#ADAR1000(0, "A", "55", 0)
 # Tester: 
-# while True:
-# 	ADAR1000(1, "A", "55", 0)  
+while True:
+ 	ADAR1000(1, "A", "55", 0)  
 
-ADAR1000(0, "0", "99", 0)	
-ADAR1000(0, "A", "55", 0)
-ADAR1000(1, "A", "00", 0)
+#ADAR1000(0, "0", "99", 0)	
+#ADAR1000(0, "A", "55", 0)
+#ADAR1000(1, "A", "00", 0)
 
 
 
