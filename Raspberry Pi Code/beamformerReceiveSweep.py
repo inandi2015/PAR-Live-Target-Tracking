@@ -33,62 +33,104 @@ angle_array = [0, 2.813, 5.625, 8.438, 11.25, 14.063, 16.875, 19.688, 22.5, 25.3
 I_array = [0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3E, 0x3E, 0x3D, 0x3D, 0x3C, 0x3C, 0x3B, 0x3A, 0x39, 0x38, 0x37, 0x36, 0x35, 0x34, 0x33, 0x32, 0x30, 0x2F, 0x2E, 0x2C, 0x2B, 0x2A, 0x28, 0x27, 0x25, 0x24, 0x22, 0x21, 0x1, 0x3, 0x4, 0x6, 0x7, 0x8, 0xA, 0xB, 0xD, 0xE, 0xF, 0x11, 0x12, 0x13, 0x14, 0x16, 0x17, 0x18, 0x19, 0x19, 0x1A, 0x1B, 0x1C, 0x1C, 0x1D, 0x1E, 0x1E, 0x1E, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1E, 0x1E, 0x1D, 0x1D, 0x1C, 0x1C, 0x1B, 0x1A, 0x19, 0x18, 0x17, 0x16, 0x15, 0x14, 0x13, 0x12, 0x10, 0xF, 0xE, 0xC, 0xB, 0xA, 0x8, 0x7, 0x5, 0x4, 0x2, 0x1, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2F, 0x31, 0x32, 0x33, 0x34, 0x36, 0x37, 0x38, 0x39, 0x39, 0x3A, 0x3B, 0x3C, 0x3C, 0x3D, 0x3E, 0x3E, 0x3E, 0x3F, 0x3F, 0x3F]
 Q_array = [0x20, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x38, 0x39, 0x3A, 0x3A, 0x3B, 0x3C, 0x3C, 0x3C, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3C, 0x3C, 0x3C, 0x3B, 0x3A, 0x3A, 0x39, 0x38, 0x38, 0x37, 0x36, 0x35, 0x34, 0x33, 0x31, 0x30, 0x2F, 0x2E, 0x2D, 0x2B, 0x2A, 0x28, 0x27, 0x26, 0x24, 0x23, 0x21, 0x20, 0x1, 0x3, 0x4, 0x6, 0x7, 0x8, 0xA, 0xB, 0xD, 0xE, 0xF, 0x10, 0x11, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x18, 0x19, 0x1A, 0x1A, 0x1B, 0x1C, 0x1C, 0x1C, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1C, 0x1C, 0x1C, 0x1B, 0x1A, 0x1A, 0x19, 0x18, 0x18, 0x17, 0x16, 0x15, 0x14, 0x13, 0x11, 0x10, 0xF, 0xE, 0xD, 0xB, 0xA, 0x8, 0x7, 0x6, 0x4, 0x3, 0x1]
 
+def ADAR1000(rw, reg, data, cs):
+    w = int(rw)
+    r = list(bin(int(reg, 16))[2:].zfill(8))
+    d = list(bin(int(data, 16))[2:].zfill(8))
+
+    #print w  
+    #print r  
+    #print d
+
+    if (cs==0):
+        csel = cs0
+    else:
+        csel = cs1
+
+    for i in range(len(r)):
+        r[i] = int(r[i])
+        d[i] = int(d[i])
+    
+    GPIO.output(csel, False)#22
+
+    bits = [w,0,0,0,0,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
+    response = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+    
+    for i in range(len(bits)):
+        if bits[i] == 1:
+            GPIO.output(mosi, True)
+            time.sleep(0.00000000000001)
+            GPIO.output(clock, True)
+            time.sleep(0.000000000001)
+            response[i] = GPIO.input(miso)
+            GPIO.output(clock, False)
+        if i == 23:
+            break
+        else:
+            GPIO.output(mosi, bits[i+1])
+            time.sleep(0.000000000001)
+
+    GPIO.output(mosi, False)
+    GPIO.output(csel, True)
+    print response
+    return
+
 # ADAR1000 RX Channel setup
 def Init_ADAR1000():
     ## Initializing ADAR1000 RX_1 for signal input ##
 
     # Reset the whole board
-    beamformer.ADAR1000Beamformer(0,0x00,0x81,0)
+    ADAR1000(0,0x00,0x81,0)
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x00,0x81,1)
+    ADAR1000(0,0x00,0x81,1)
     time.sleep(writeDelay)
 
     # Configure the whole board for SPI communication
-    beamformer.ADAR1000Beamformer(0,0x00,0x18,0)
+    ADAR1000(0,0x00,0x18,0)
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x00,0x18,1)
+    ADAR1000(0,0x00,0x18,1)
     time.sleep(writeDelay)
     
     # Set 1.8v LDO output (Adjust LDOs)
-    beamformer.ADAR1000Beamformer(0,0x400,0x55,0) # LDO_TRIM_CTRL_0
+    ADAR1000(0,0x400,0x55,0) # LDO_TRIM_CTRL_0
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x400,0x55,1)
+    ADAR1000(0,0x400,0x55,1)
     time.sleep(writeDelay)
 
     # Select SPI for channel settings
-    beamformer.ADAR1000Beamformer(0,0x38,0x60,0)
+    ADAR1000(0,0x38,0x60,0)
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x38,0x60,1)
+    ADAR1000(0,0x38,0x60,1)
     time.sleep(writeDelay)
 
     # Enable LNA
-    beamformer.ADAR1000Beamformer(0,0x2E,0x7F,0) 
+    ADAR1000(0,0x2E,0x7F,0) 
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x2E,0x7F,1)
+    ADAR1000(0,0x2E,0x7F,1)
     time.sleep(writeDelay)
 
     #Set RX LNA bias to 8
-    beamformer.ADAR1000Beamformer(0,0x34,0x08,0) 
+    ADAR1000(0,0x34,0x08,0) 
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x34,0x08,1)
+    ADAR1000(0,0x34,0x08,1)
     time.sleep(writeDelay)
 
     #Set RX VGA bias to 2
-    beamformer.ADAR1000Beamformer(0,0x35,0x16,0) 
+    ADAR1000(0,0x35,0x16,0) 
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x35,0x16,1)
+    ADAR1000(0,0x35,0x16,1)
     time.sleep(writeDelay)
 
     # Enables the whole Rx 
-    beamformer.ADAR1000Beamformer(0,0x31,0x20,0) 
+    ADAR1000(0,0x31,0x20,0) 
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x31,0x20,1)
+    ADAR1000(0,0x31,0x20,1)
     time.sleep(writeDelay)
 
     # Loads the Rx working registers from the SPI 
-    beamformer.ADAR1000Beamformer(0,0x28,0x01,0) 
+    ADAR1000(0,0x28,0x01,0) 
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x28,0x01,1)
+    ADAR1000(0,0x28,0x01,1)
     time.sleep(writeDelay)
 
 def phaseShift(angle):
@@ -119,13 +161,13 @@ def BeamSteering(angle):
     #//////////////////////////////////////////////////
     index = (np.abs(phases-angle)).argmin()
     #Write to Registers 
-    beamformer.ADAR1000Beamformer(0,0x10,0xFF,0) #Ch1_RX_GAIN
+    ADAR1000(0,0x10,0xFF,0) #Ch1_RX_GAIN
     time.sleep(writeDelay) # add if needed in between everything
-    beamformer.ADAR1000Beamformer(0,0x14,I_array[index],0) #CH1_RX_PHASE_I
+    ADAR1000(0,0x14,I_array[index],0) #CH1_RX_PHASE_I
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x15,Q_array[index],0) #CH1_RX_PHASE_Q
+    ADAR1000(0,0x15,Q_array[index],0) #CH1_RX_PHASE_Q
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x28,0x01,0) #Load Work Registers
+    ADAR1000(0,0x28,0x01,0) #Load Work Registers
 
 
     #****************** B o a r d A - RX_2  **************** 
@@ -135,13 +177,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-aE2Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(aE2Shift)+'\t'+str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers 
-    beamformer.ADAR1000Beamformer(0,0x11,0xFF,0) #Ch2_RX_GAIN
+    ADAR1000(0,0x11,0xFF,0) #Ch2_RX_GAIN
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x16,I_array[index],0) #CH2_RX_PHASE_I
+    ADAR1000(0,0x16,I_array[index],0) #CH2_RX_PHASE_I
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x17,Q_array[index],0) #CH2_RX_PHASE_Q
+    ADAR1000(0,0x17,Q_array[index],0) #CH2_RX_PHASE_Q
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x28,0x01,0) #Load Work Registers
+    ADAR1000(0,0x28,0x01,0) #Load Work Registers
     
 
     #****************** B o a r d A - RX_3  **************** 
@@ -152,13 +194,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-aE3Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(aE3Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    beamformer.ADAR1000Beamformer(0,0x12,0xFF,0) #Ch3_RX_GAIN
+    ADAR1000(0,0x12,0xFF,0) #Ch3_RX_GAIN
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x18,I_array[index],0) #CH3_RX_PHASE_I
+    ADAR1000(0,0x18,I_array[index],0) #CH3_RX_PHASE_I
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x19,Q_array[index],0) #CH3_RX_PHASE_Q
+    ADAR1000(0,0x19,Q_array[index],0) #CH3_RX_PHASE_Q
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x28,0x01,0) #Load Work Registers
+    ADAR1000(0,0x28,0x01,0) #Load Work Registers
 
 
     #****************** B o a r d A - RX_4  **************** 
@@ -169,13 +211,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-aE4Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(aE4Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    beamformer.ADAR1000Beamformer(0,0x13,0xFF,0) #Ch4_RX_GAIN
+    ADAR1000(0,0x13,0xFF,0) #Ch4_RX_GAIN
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x1A,I_array[index],0) #CH4_RX_PHASE_I
+    ADAR1000(0,0x1A,I_array[index],0) #CH4_RX_PHASE_I
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x1B,Q_array[index],0) #CH4_RX_PHASE_Q
+    ADAR1000(0,0x1B,Q_array[index],0) #CH4_RX_PHASE_Q
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x28,0x01,0) #Load Work Registers
+    ADAR1000(0,0x28,0x01,0) #Load Work Registers
 
 
     #****************** B o a r d B - RX_1  **************** 
@@ -186,13 +228,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-bE1Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(bE1Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    beamformer.ADAR1000Beamformer(0,0x10,0xFF,1) #Ch5_RX_GAIN
+    ADAR1000(0,0x10,0xFF,1) #Ch5_RX_GAIN
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x14,I_array[index],1) #CH5_RX_PHASE_I
+    ADAR1000(0,0x14,I_array[index],1) #CH5_RX_PHASE_I
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x15,Q_array[index],1) #CH5_RX_PHASE_Q
+    ADAR1000(0,0x15,Q_array[index],1) #CH5_RX_PHASE_Q
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x28,0x01,1) #Load Work Registers
+    ADAR1000(0,0x28,0x01,1) #Load Work Registers
 
 
     #****************** B o a r d B - RX_2  **************** 
@@ -203,13 +245,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-bE2Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(bE2Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    beamformer.ADAR1000Beamformer(0,0x11,0xFF,1) #Ch6_RX_GAIN
+    ADAR1000(0,0x11,0xFF,1) #Ch6_RX_GAIN
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x16,I_array[index],1) #CH6_RX_PHASE_I
+    ADAR1000(0,0x16,I_array[index],1) #CH6_RX_PHASE_I
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x17,Q_array[index],1) #CH6_RX_PHASE_Q
+    ADAR1000(0,0x17,Q_array[index],1) #CH6_RX_PHASE_Q
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x28,0x01,1) #Load Work Registers
+    ADAR1000(0,0x28,0x01,1) #Load Work Registers
 
 
     #****************** B o a r d B - RX_3  **************** 
@@ -220,13 +262,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-bE3Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(bE3Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    beamformer.ADAR1000Beamformer(0,0x12,0xFF,1) #Ch7_RX_GAIN
+    ADAR1000(0,0x12,0xFF,1) #Ch7_RX_GAIN
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x18,I_array[index],1) #CH7_RX_PHASE_I
+    ADAR1000(0,0x18,I_array[index],1) #CH7_RX_PHASE_I
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x19,Q_array[index],1) #CH7_RX_PHASE_Q
+    ADAR1000(0,0x19,Q_array[index],1) #CH7_RX_PHASE_Q
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x28,0x01,1) #Load Work Registers
+    ADAR1000(0,0x28,0x01,1) #Load Work Registers
 
 
     #****************** B o a r d B - RX_4  **************** 
@@ -237,13 +279,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-bE4Shift)).argmin()  
     #print str(angle_array[index])+'\t'+str(bE4Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    beamformer.ADAR1000Beamformer(0,0x13,0xFF,1) #Ch8_RX_GAIN
+    ADAR1000(0,0x13,0xFF,1) #Ch8_RX_GAIN
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x1A,I_array[index],1) #CH8_RX_PHASE_I
+    ADAR1000(0,0x1A,I_array[index],1) #CH8_RX_PHASE_I
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x1B,Q_array[index],1) #CH8_RX_PHASE_Q
+    ADAR1000(0,0x1B,Q_array[index],1) #CH8_RX_PHASE_Q
     time.sleep(writeDelay)
-    beamformer.ADAR1000Beamformer(0,0x28,0x01,1) #Load Work Registers
+    ADAR1000(0,0x28,0x01,1) #Load Work Registers
 
 print "Initalizing ADAR1004..."
 Init_ADAR1004()
