@@ -72,13 +72,14 @@ def ADAR1000(rw, reg, data, cs):
 
     GPIO.output(mosi, False)
     GPIO.output(csel, True)
-    print response
+    if w:
+        print response
     return
 
 # ADAR1000 RX Channel setup
 def Init_ADAR1000():
     ## Initializing ADAR1000 RX_1 for signal input ##
-
+    writeDelay = 0.1
     # Reset the whole board
     ADAR1000(0,"0x00","0x81",0)
     time.sleep(writeDelay)
