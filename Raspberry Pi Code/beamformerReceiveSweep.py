@@ -2,9 +2,9 @@ import time
 import sys
 from math import *
 import RPi.GPIO as GPIO
-from bitbangADAR1000 import ADAR100Beamformer
+#from bitbangADAR1000 import ADAR100Beamformer
 
-beamformer = ADAR100Beamformer()
+#beamformer = ADAR100Beamformer()
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)
@@ -288,7 +288,7 @@ def BeamSteering(angle):
     ADAR1000(0,0x28,0x01,1) #Load Work Registers
 
 print "Initalizing ADAR1004..."
-Init_ADAR1004()
+Init_ADAR1000()
 
 #b_start = -40
 ##b_end = sys.argv[1]
