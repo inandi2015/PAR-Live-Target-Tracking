@@ -1,6 +1,8 @@
 import time
 import sys
-from math import *
+#from math import *
+import math
+import numpy as np
 import RPi.GPIO as GPIO
 #from bitbangADAR1000 import ADAR100Beamformer
 
@@ -56,7 +58,7 @@ def ADAR1000(rw, reg, data, cs):
     GPIO.output(csel, False)#22
 
     #bits = [w,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],r[8],r[9],r[10],r[11],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
-    bits = [w,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],r[8],r[9],r[10],r[11],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
+    bits = [w,0,0,0,0,0,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
     response = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     
     for i in range(len(bits)):
@@ -302,4 +304,5 @@ Init_ADAR1000()
 #for angle in (range(b_start, b_end, b_increment)): # at each postion, loop through the beam angles
 #    BeamSteering(angle)
 
-#BeamSteering(0)
+print "Beamformer Setting..."
+BeamSteering(0)
