@@ -1,6 +1,8 @@
 import time
 import sys
 from math import *
+import subprocess
+import os
 
 #********************* T a b l e   o f  P h a s e  S e t t i n g s ************
 angle_array = [0, 2.813, 5.625, 8.438, 11.25, 14.063, 16.875, 19.688, 22.5, 25.313, 28.125, 30.938, 33.75, 36.563, 39.375, 42.188, 45, 47.813, 50.625, 53.438, 56.25, 59.063, 61.875, 64.688, 67.5, 70.313, 73.125, 75.938, 78.75, 81.563, 84.375, 87.188, 90, 92.813, 95.625, 98.438, 101.25, 104.063, 106.875, 109.688, 112.5, 115.313, 118.125, 120.938, 123.75, 126.563, 129.375, 132.188, 135, 137.813, 140.625, 143.438, 146.25, 149.063, 151.875, 154.688, 157.5, 160.313, 163.125, 165.938, 168.75, 171.563, 174.375, 177.188, 180, 182.813, 185.625, 188.438, 191.25, 194.063, 196.875, 199.688, 202.5, 205.313, 208.125, 210.938, 213.75, 216.563, 219.375, 222.188, 225, 227.813, 230.625, 233.438, 236.25, 239.063, 241.875, 244.688, 247.5, 250.313, 253.125, 255.938, 258.75, 261.563, 264.375, 267.188, 270, 272.813, 275.625, 278.438, 281.25, 284.063, 286.875, 289.688, 292.5, 295.313, 298.125, 300.938, 303.75, 306.563, 309.375, 312.188, 315, 317.813, 320.625, 323.438, 326.25, 329.063, 331.875, 334.688, 337.5, 340.313, 343.125, 345.938, 348.75, 351.563, 354.375, 357.188]
@@ -9,11 +11,14 @@ Q_array = [0x20, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2
 
 # ADAR1000 RX Channel setup
 def Init_ADAR1000():
+    os.system('sudo ./spi_write 0x00 0x81 0')
+    return
     ## Initializing ADAR1000 RX_1 for signal input ##
     writeDelay = 0.1
     # Reset the whole board
-    instruction = './spi_write 0x00 0x81 0'
+    instruction = 'sudo ./spi_write 0x00 0x81 0'
     subprocess.call(instruction)
+    return
     time.sleep(writeDelay)
     instruction = './spi_write 0x00 0x81 1'
     subprocess.call(instruction)
@@ -113,6 +118,7 @@ def BeamSteering(angle):
     #Write to Registers 
     instruction = './spi_write 0x10 0xFF 0' #Ch1_RX_GAIN
     subprocess.call(instruction)
+    return
     time.sleep(writeDelay) # add if needed in between everything
     instruction = './spi_write 0x14 ' + str(I_array[index]).replace('0x','') + ' 0' #CH1_RX_PHASE_I
     subprocess.call(instruction)
