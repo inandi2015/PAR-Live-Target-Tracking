@@ -54,7 +54,8 @@ int main(int argc, char *argv[]) {
   }
   else {
     // write to the first beamformer register
-    bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);      
+    bcm2835_spi_chipSelect(BCM2835_SPI_CS0);
+    bcm2835_spi_setChipSelectPolarity(BCM2835_SPI_CS0, LOW);    
   }
 // end setup RPi SPI interface
 
