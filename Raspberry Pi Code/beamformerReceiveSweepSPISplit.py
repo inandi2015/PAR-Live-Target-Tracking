@@ -11,7 +11,7 @@ Q_array = [0x20, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2
 
 # ADAR1000 RX Channel setup
 def Init_ADAR1000():
-    os.system('sudo ./spi_write 0x00 0x81 0'))
+    os.system('sudo ./spi_write 0x00 0x81 0')
     ## Initializing ADAR1000 RX_1 for signal input ##
     writeDelay = 0.1
     # Reset the whole board
