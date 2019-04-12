@@ -29,8 +29,8 @@ GPIO.output(cs1, True)
 class ADAR1000Beamformer:
     def ADAR1000(self, rw, reg, data, cs):
         w = int(rw)
-        r = list(bin(int(reg, 16))[2:].zfill(12))
-        d = list(bin(int(data, 16))[2:].zfill(12))
+        r = list(bin(int(reg, 16))[2:].zfill(8))
+        d = list(bin(int(data, 16))[2:].zfill(8))
 
         #print w  
         #print r  
@@ -47,7 +47,7 @@ class ADAR1000Beamformer:
         
         GPIO.output(csel, False)#22
 
-        bits = [w,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],r[8],r[9],r[10],r[11],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
+        bits = [w,0,0,0,0,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
         response = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
         
         for i in range(len(bits)):
@@ -71,9 +71,9 @@ class ADAR1000Beamformer:
 
 
 beamformer = ADAR1000Beamformer()
-beamformer.ADAR1000(0,"A","63",1)
+beamformer.ADAR1000(0,"0x00","0x81",0)
 while True:
-    beamformer.ADAR1000(1,"A","63",1)
+    beamformer.ADAR1000(1,"0x00","0x81",0)
 
 
 

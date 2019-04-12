@@ -58,7 +58,7 @@ def ADAR1000(rw, reg, data, cs):
     GPIO.output(csel, False)#22
 
     #bits = [w,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],r[8],r[9],r[10],r[11],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
-    bits = [w,0,0,0,0,0,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
+    bits = [w,0,0,0,0,0,0,0,r[0],r[1],r[2],r[3],r[4],r[5],r[6],r[7],d[0],d[1],d[2],d[3],d[4],d[5],d[6],d[7]]
     response = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
     
     for i in range(len(bits)):
@@ -87,6 +87,7 @@ def Init_ADAR1000():
     writeDelay = 0.1
     # Reset the whole board
     ADAR1000(0,"0x00","0x81",0)
+    ADAR1000(1,"0x00","0x81",0)
     time.sleep(writeDelay)
     ADAR1000(0,"0x00","0x81",1)
     time.sleep(writeDelay)
@@ -305,4 +306,4 @@ Init_ADAR1000()
 #    BeamSteering(angle)
 
 print "Beamformer Setting..."
-BeamSteering(0)
+BeamSteering(90)
