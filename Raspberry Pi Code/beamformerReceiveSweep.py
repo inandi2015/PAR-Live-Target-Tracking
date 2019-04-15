@@ -354,4 +354,4 @@ Init_ADAR1000()
 #    BeamSteering(angle)
 
 print "Beamformer Setting..."
-BeamSteering(90)
+BeamSteering(0)

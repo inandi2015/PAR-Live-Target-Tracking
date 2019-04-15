@@ -12,10 +12,8 @@ Q_array = [0x20, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2
 
 # ADAR1000 RX Channel setup
 def Init_ADAR1000():
-    os.system('sudo ./spitest 0000 81')
-    return
     ## Initializing ADAR1000 RX_1 for signal input ##
-    writeDelay = 0.1
+    writeDelay = 0.01
     # Reset the whole board
     os.system('sudo ./spitest 0000 81')
     time.sleep(writeDelay)
@@ -83,14 +81,13 @@ def phaseShift(angle):
 
 # Calculate the I and Q register values and set each channel
 def BeamSteering(angle):
-    return
     #Calculate phase shift between two elements
     pshift = phaseShift(angle) 
     #print "angle "+ str(angle) +"\tpshift: " + str(pshift)
     #Copy list of angles into a numerical python array
     phases = np.asarray(angle_array)
     plane = 360
-    writeDelay = 0.1
+    writeDelay = 0.01
     
     #****************** B o a r d A - RX_1  **************** 
     # 
