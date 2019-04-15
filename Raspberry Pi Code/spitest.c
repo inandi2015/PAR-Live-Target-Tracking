@@ -78,10 +78,10 @@ int main(int argc, char *argv[]) {
     spibuf[0] = command >> 8;
     spibuf[1] = command;
     spibuf[2] = data;
-    fprintf(stderr, "%.2x %.2x %.2x\n", spibuf[0], spibuf[1], spibuf[2]);
+    //fprintf(stderr, "%.2x %.2x %.2x\n", spibuf[0], spibuf[1], spibuf[2]);
     bcm2835_spi_transfern(spibuf, sizeof(spibuf));
     if(n < 0) error("ERROR writing to spi");
-    fprintf(stderr, "%.2x %.2x %.2x\n", spibuf[0], spibuf[1], spibuf[2]);
+    //fprintf(stderr, "%.2x %.2x %.2x\n", spibuf[0], spibuf[1], spibuf[2]);
   }
   bcm2835_spi_end();
   bcm2835_close();
