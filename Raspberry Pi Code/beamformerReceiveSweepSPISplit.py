@@ -12,61 +12,62 @@ Q_array = [0x20, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2
 
 # ADAR1000 RX Channel setup
 def Init_ADAR1000():
-    os.system('sudo ./spi_write 0x00 0x81 0')
+    os.system('sudo ./spitest 0000 81')
+    return
     ## Initializing ADAR1000 RX_1 for signal input ##
     writeDelay = 0.1
     # Reset the whole board
-    os.system('sudo ./spi_write 0x00 0x81 0')
+    os.system('sudo ./spitest 0000 81')
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x00 0x81 1')
+    os.system('sudo ./spitest 2000 81')
     time.sleep(writeDelay)
 
     # Configure the whole board for SPI communication
-    os.system('sudo ./spi_write 0x00 0x18 0')
+    os.system('sudo ./spitest 0000 18')
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x00 0x18 1')
+    os.system('sudo ./spitest 2000 18')
     time.sleep(writeDelay)
     
     # Set 1.8v LDO output (Adjust LDOs) # NEED THIS TO WORK LATER
-    os.system('sudo ./spi_write 0x400 0x55 0') # LDO_TRIM_CTRL_0
+    os.system('sudo ./spitest 0400 55') # LDO_TRIM_CTRL_0
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x400 0x55 1')
+    os.system('sudo ./spitest 2400 55')
     time.sleep(writeDelay)
 
     # Select SPI for channel settings
-    os.system('sudo ./spi_write 0x38 0x60 0')
+    os.system('sudo ./spitest 0038 60')
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x38 0x60 1')
+    os.system('sudo ./spitest 2038 60')
     time.sleep(writeDelay)
 
     # Enable LNA
-    os.system('sudo ./spi_write 0x2E 0x7F 0') 
+    os.system('sudo ./spitest 002E 7F') 
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x2E 0x7F 1')
+    os.system('sudo ./spitest 202E 7F')
     time.sleep(writeDelay)
 
     #Set RX LNA bias to 8
-    os.system('sudo ./spi_write 0x34 0x08 0') 
+    os.system('sudo ./spitest 0034 08') 
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x34 0x08 1')
+    os.system('sudo ./spitest 2034 08')
     time.sleep(writeDelay)
 
     #Set RX VGA bias to 2
-    os.system('sudo ./spi_write 0x35 0x16 0') 
+    os.system('sudo ./spitest 0035 16') 
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x35 0x16 1')
+    os.system('sudo ./spitest 2035 16')
     time.sleep(writeDelay)
 
     # Enables the whole Rx 
-    os.system('sudo ./spi_write 0x31 0x20 0') 
+    os.system('sudo ./spitest 0031 20') 
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x31 0x20 1')
+    os.system('sudo ./spitest 2031 20')
     time.sleep(writeDelay)
 
     # Loads the Rx working registers from the SPI 
-    os.system('sudo ./spi_write 0x28 0x01 0') 
+    os.system('sudo ./spitest 0028 01') 
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x28 0x01 1')
+    os.system('sudo ./spitest 2028 01')
     time.sleep(writeDelay)
 
 def phaseShift(angle):
@@ -82,6 +83,7 @@ def phaseShift(angle):
 
 # Calculate the I and Q register values and set each channel
 def BeamSteering(angle):
+    return
     #Calculate phase shift between two elements
     pshift = phaseShift(angle) 
     #print "angle "+ str(angle) +"\tpshift: " + str(pshift)
@@ -97,14 +99,13 @@ def BeamSteering(angle):
     #//////////////////////////////////////////////////
     index = (np.abs(phases-angle)).argmin()
     #Write to Registers 
-    os.system('sudo ./spi_write 0x10 0xFF 0') #Ch1_RX_GAIN
-    return
+    os.system('sudo ./spitest 0010 FF') #Ch1_RX_GAIN
     time.sleep(writeDelay) # add if needed in between everything
-    os.system('sudo ./spi_write 0x14 ' + str(I_array[index]).replace('0x','') + ' 0') #CH1_RX_PHASE_I
+    os.system('sudo ./spitest 0014 ' + str(I_array[index]).replace('0x','')) #CH1_RX_PHASE_I
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x15 ' + str(Q_array[index]).replace('0x','') + ' 0') #CH1_RX_PHASE_Q
+    os.system('sudo ./spitest 0015 ' + str(Q_array[index]).replace('0x','')) #CH1_RX_PHASE_Q
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x28 0x01 0') #Load Work Registers
+    os.system('sudo ./spitest 0028 01') #Load Work Registers
 
 
     #****************** B o a r d A - RX_2  **************** 
@@ -114,13 +115,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-aE2Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(aE2Shift)+'\t'+str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers 
-    os.system('sudo ./spi_write 0x11 0xFF 0') #Ch2_RX_GAIN
+    os.system('sudo ./spitest 0011 FF') #Ch2_RX_GAIN
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x16 ' + str(I_array[index]).replace('0x','') + ' 0') #CH2_RX_PHASE_I
+    os.system('sudo ./spitest 0016 ' + str(I_array[index]).replace('0x','')) #CH2_RX_PHASE_I
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x17 ' + str(Q_array[index]).replace('0x','') + ' 0') #CH2_RX_PHASE_Q
+    os.system('sudo ./spitest 0017 ' + str(Q_array[index]).replace('0x','')) #CH2_RX_PHASE_Q
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x28 0x01 0') #Load Work Registers
+    os.system('sudo ./spitest 0028 01') #Load Work Registers
 
 
     #****************** B o a r d A - RX_3  **************** 
@@ -131,13 +132,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-aE3Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(aE3Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    os.system('sudo ./spi_write 0x12 0xFF 0') #Ch3_RX_GAIN
+    os.system('sudo ./spitest 0012 FF') #Ch3_RX_GAIN
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x18 ' + str(I_array[index]).replace('0x','') + ' 0') #CH3_RX_PHASE_I
+    os.system('sudo ./spitest 0018 ' + str(I_array[index]).replace('0x','')) #CH3_RX_PHASE_I
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x19 ' + str(Q_array[index]).replace('0x','') + ' 0') #CH3_RX_PHASE_Q
+    os.system('sudo ./spitest 0019 ' + str(Q_array[index]).replace('0x','')) #CH3_RX_PHASE_Q
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x28 0x01 0') #Load Work Registers
+    os.system('sudo ./spitest 0028 01') #Load Work Registers
 
 
     #****************** B o a r d A - RX_4  **************** 
@@ -148,13 +149,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-aE4Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(aE4Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    os.system('sudo ./spi_write 0x13 0xFF 0') #Ch4_RX_GAIN
+    os.system('sudo ./spitest 0013 FF') #Ch4_RX_GAIN
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x1A ' + str(I_array[index]).replace('0x','') + ' 0') #CH4_RX_PHASE_I
+    os.system('sudo ./spitest 001A ' + str(I_array[index]).replace('0x','')) #CH4_RX_PHASE_I
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x1B ' + str(Q_array[index]).replace('0x','') + ' 0') #CH4_RX_PHASE_Q
+    os.system('sudo ./spitest 001B ' + str(Q_array[index]).replace('0x','')) #CH4_RX_PHASE_Q
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x28 0x01 0') #Load Work Registers
+    os.system('sudo ./spitest 0028 01') #Load Work Registers
 
 
     #****************** B o a r d B - RX_1  **************** 
@@ -165,13 +166,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-bE1Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(bE1Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    os.system('sudo ./spi_write 0x10 0xFF 1') #Ch5_RX_GAIN
+    os.system('sudo ./spitest 2010 FF') #Ch5_RX_GAIN
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x14 ' + str(I_array[index]).replace('0x','') + ' 1') #CH5_RX_PHASE_I
+    os.system('sudo ./spitest 2014 ' + str(I_array[index]).replace('0x','')) #CH5_RX_PHASE_I
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x15 ' + str(Q_array[index]).replace('0x','') + ' 1') #CH5_RX_PHASE_Q
+    os.system('sudo ./spitest 2015 ' + str(Q_array[index]).replace('0x','')) #CH5_RX_PHASE_Q
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x28 0x01 1') #Load Work Registers
+    os.system('sudo ./spitest 2028 01') #Load Work Registers
 
 
     #****************** B o a r d B - RX_2  **************** 
@@ -182,13 +183,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-bE2Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(bE2Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    os.system('sudo ./spi_write 0x11 0xFF 1') #Ch6_RX_GAIN
+    os.system('sudo ./spitest 2011 FF') #Ch6_RX_GAIN
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x16 ' + str(I_array[index]).replace('0x','') + ' 1') #CH6_RX_PHASE_I
+    os.system('sudo ./spitest 2016 ' + str(I_array[index]).replace('0x','')) #CH6_RX_PHASE_I
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x17 ' + str(Q_array[index]).replace('0x','') + ' 1') #CH6_RX_PHASE_Q
+    os.system('sudo ./spitest 2017 ' + str(Q_array[index]).replace('0x','')) #CH6_RX_PHASE_Q
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x28 0x01 1') #Load Work Registers
+    os.system('sudo ./spitest 2028 01') #Load Work Registers
 
 
     #****************** B o a r d B - RX_3  **************** 
@@ -199,13 +200,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-bE3Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(bE3Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    os.system('sudo ./spi_write 0x12 0xFF 1') #Ch7_RX_GAIN
+    os.system('sudo ./spitest 2012 FF') #Ch7_RX_GAIN
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x18 ' + str(I_array[index]).replace('0x','') + ' 1') #CH7_RX_PHASE_I
+    os.system('sudo ./spitest 2018 ' + str(I_array[index]).replace('0x','')) #CH7_RX_PHASE_I
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x19 ' + str(Q_array[index]).replace('0x','') + ' 1') #CH7_RX_PHASE_Q
+    os.system('sudo ./spitest 2019 ' + str(Q_array[index]).replace('0x','')) #CH7_RX_PHASE_Q
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x28 0x01 1') #Load Work Registers
+    os.system('sudo ./spitest 2028 01') #Load Work Registers
 
 
     #****************** B o a r d B - RX_4  **************** 
@@ -216,13 +217,13 @@ def BeamSteering(angle):
     index = (np.abs(phases-bE4Shift)).argmin()  
     #print str(angle_array[index])+'\t'+str(bE4Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
-    os.system('sudo ./spi_write 0x13 0xFF 1') #Ch8_RX_GAIN
+    os.system('sudo ./spitest 2013 FF') #Ch8_RX_GAIN
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x1A ' + str(I_array[index]).replace('0x','') + ' 1') #CH8_RX_PHASE_I
+    os.system('sudo ./spitest 201A ' + str(I_array[index]).replace('0x','')) #CH8_RX_PHASE_I
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x1B ' + str(Q_array[index]).replace('0x','') + ' 1') #CH8_RX_PHASE_Q
+    os.system('sudo ./spitest 201B ' + str(Q_array[index]).replace('0x','')) #CH8_RX_PHASE_Q
     time.sleep(writeDelay)
-    os.system('sudo ./spi_write 0x28 0x01 1') #Load Work Registers
+    os.system('sudo ./spitest 2028 01') #Load Work Registers
 
 print "Initalizing ADAR1004..."
 Init_ADAR1000()
