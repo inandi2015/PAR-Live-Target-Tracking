@@ -114,6 +114,7 @@ def BeamSteering(angle):
     #Write to Registers 
     os.system('sudo ./spitest 0011 FF') #Ch2_RX_GAIN
     time.sleep(writeDelay)
+    print('sudo ./spitest 0016 ' + str(I_array[index]).replace('0x',''))
     os.system('sudo ./spitest 0016 ' + str(I_array[index]).replace('0x','')) #CH2_RX_PHASE_I
     time.sleep(writeDelay)
     os.system('sudo ./spitest 0017 ' + str(Q_array[index]).replace('0x','')) #CH2_RX_PHASE_Q
