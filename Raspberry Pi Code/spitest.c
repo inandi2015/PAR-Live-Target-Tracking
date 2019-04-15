@@ -83,7 +83,6 @@ int main(int argc, char *argv[]) {
     if(n < 0) error("ERROR writing to spi");
     fprintf(stderr, "%.2x %.2x %.2x\n", spibuf[0], spibuf[1], spibuf[2]);
   }
-  printf("\nTESTING\n");
   bcm2835_spi_end();
   bcm2835_close();
   return 0;
