@@ -2,7 +2,7 @@ xsampl=csvread('testCH1.csv');
 x = transpose(xsampl);
 ysampl=csvread('testCH2.csv');
 y = transpose(ysampl);
-t=[0:3999];
+t=[0:8191];
 % phase difference calculation
 PhDiff = phdiffmeasure(x, y);
 PhDiff = PhDiff*180/pi;
