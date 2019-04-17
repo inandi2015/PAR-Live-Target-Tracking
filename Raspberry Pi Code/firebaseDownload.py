@@ -21,13 +21,14 @@ class FirebaseDownload:
         if result['Mode'] == 'Start':
             print("Starting system...")
             # Call driver stuff
-            return 'Start'
+            return 'Start', 'NA'
         elif result['Mode'] == 'Stop':  
             #print("Stopping system...")
             # Kill everything
-            return 'Stop'
+            return 'Stop', 'NA'
         elif result['Mode'] == 'Local':
             print("Steering beamformer...")
+            phaseDifference = result['PhaseDifference']
             # Return phase difference result['PhaseDifference'] to steer beam
-            return 'Local'
+            return 'Local', phaseDifference
         
