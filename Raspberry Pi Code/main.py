@@ -57,7 +57,7 @@ while True: # Outer loop for keeping radar listening continuously
                             subprocess.call('python beamformerSteer.py ' + str(currentPosition) + ' ' + str((beamformerPositions-1)), shell=True)
                         amplitude = subprocess.check_output('python AcquisitionIn.py').decode('ascii')         
                         if float(amplitude.splitlines()[-1]) > beamformerThreshold:
-                            # state, phase = download.firebaseDownloadRadar(firebaseProject)
+                            # state, phase = download.firebaseDownloadRadar(firebaseProject) 
                             # if state == 'Stop':
                             #     break
                             upload.firebaseUploadTracking(firebaseProject) 
