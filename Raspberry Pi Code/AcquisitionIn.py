@@ -39,6 +39,9 @@ if hdwf.value == hdwfNone.value:
     dwf.FDwfGetLastErrorMsg(szerr)
     print "szerr.value"
     print "failed to open device"
+    f = open('amplitude.txt', 'w')
+    f.write("failed to open device")
+    f.close()
     quit()
 
 
