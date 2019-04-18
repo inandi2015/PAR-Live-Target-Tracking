@@ -7,10 +7,6 @@ import sys
 import numpy 
 from numpy.fft import fft,fftfreq, ifft
 
-#class DevNull:
-#        def write(self, msg):
-#                    pass
-
 if sys.platform.startswith("win"):
     dwf = cdll.dwf
 elif sys.platform.startswith("darwin"):
@@ -71,6 +67,7 @@ dwf.FDwfAnalogInStatusData(hdwf, 0, rgdSamples1, 8192)
 dwf.FDwfAnalogInStatusData(hdwf, 1, rgdSamples2, 8192)
 dwf.FDwfAnalogInRecordLengthSet(hdwf, byref(Length))
 dwf.FDwfAnalogInBufferSizeInfo(hdwf, byref(Min), byref(Max))
+dwf.FDwfDeviceCloseAll()
 
 rgpy1=[0.0]*len(rgdSamples1)
 for i in range(0,len(rgpy1)):
@@ -92,10 +89,9 @@ fft_vals1=fft(rgpy1)
 
 fft_theo1=2.0*numpy.abs(fft_vals1/n)
 print max(fft_theo1[mask].tolist())
-f = open('amplitude.txt', 'w')
-f.write(str(max(fft_theo1[mask].tolist())))
-f.close()
-#sys.stderr = DevNull()
+#f = open('amplitude.txt', 'w')
+#f.write(str(max(fft_theo1[mask].tolist())))
+#f.close()
 
 # dwf.FDwfAnalogInRecordLengthGet(hdwf, byref(Length))
 # dwf.FDwfAnalogInFrequencyInfo(hdwf, byref(Min), byref(Max))

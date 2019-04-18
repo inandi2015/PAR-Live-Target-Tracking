@@ -33,10 +33,10 @@ while True: # Outer loop for keeping radar listening continuously
                 angleDivision = int(180/int(beamformerPositions-1))
                 position = positionNumber * angleDivision
                 subprocess.call('python beamformerSteer.py ' + str(position), shell=True)
-                #amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')
-                subprocess.call('python AcquisitionIn.py', shell=True)
-                with open('amplitude.txt', 'r') as file:
-                    amplitude = float(file.read())
+                amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')
+                #subprocess.call('python AcquisitionIn.py', shell=True)
+                #with open('amplitude.txt', 'r') as file:
+                #    amplitude = float(file.read())
                 if str(amplitude.splitlines()[-1]) != "failed to open device":
                     print("Amplitude found: " + amplitude.splitlines()[-1])
                     amplitudeValues.append(float(amplitude.splitlines()[-1]))
@@ -50,10 +50,10 @@ while True: # Outer loop for keeping radar listening continuously
                 angleDivision = int(180/int(beamformerPositions-1))
                 position = positionNumber * angleDivision
                 subprocess.call('python beamformerSteer.py ' + str(position), shell=True)
-                #amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')
-                subprocess.call('python AcquisitionIn.py', shell=True)
-                with open('amplitude.txt', 'r') as file:
-                    amplitude = float(file.read())
+                amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')
+                #subprocess.call('python AcquisitionIn.py', shell=True)
+                #with open('amplitude.txt', 'r') as file:
+                #    amplitude = float(file.read())
                 upload.firebaseUploadTracking(firebaseProject) 
                 currentAngle = int(maxAmplitudeIndex) * int(180/int(beamformerPositions-1))
                 while state != 'Stop': 
@@ -68,10 +68,10 @@ while True: # Outer loop for keeping radar listening continuously
                         elif float(phase) < 0:
                             currentAngle = currentAngle - offsetAngle
                             subprocess.call('python beamformerSteer.py ' + str(currentAngle), shell=True)
-                        #amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')         
-                        subprocess.call('python AcquisitionIn.py', shell=True)
-                        with open('amplitude.txt', 'r') as file:
-                            amplitude = float(file.read())
+                        amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')         
+                        #subprocess.call('python AcquisitionIn.py', shell=True)
+                        #with open('amplitude.txt', 'r') as file:
+                        #    amplitude = float(file.read())
                         if float(amplitude.splitlines()[-1]) > beamformerThreshold:
                             # state, phase = download.firebaseDownloadRadar(firebaseProject) 
                             # if state == 'Stop':
