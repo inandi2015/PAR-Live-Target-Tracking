@@ -33,8 +33,8 @@ while True: # Outer loop for keeping radar listening continuously
                 angleDivision = int(180/int(beamformerPositions-1))
                 position = positionNumber * angleDivision
                 subprocess.call('python beamformerSteer.py ' + str(position), shell=True)
-                amplitude = subprocess.check_output('python AcquisitionIn.py').decode('ascii')
-                if (amplitude.splitlines()[-1]) != "failed to open device":
+                amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')
+                if str(amplitude.splitlines()[-1]) != "failed to open device":
                     print("Amplitude found: " + amplitude.splitlines()[-1])
                     amplitudeValues.append(float(amplitude.splitlines()[-1]))
                 else:
@@ -47,7 +47,7 @@ while True: # Outer loop for keeping radar listening continuously
                 angleDivision = int(180/int(beamformerPositions-1))
                 position = positionNumber * angleDivision
                 subprocess.call('python beamformerSteer.py ' + str(position), shell=True)
-                amplitude = subprocess.check_output('python AcquisitionIn.py').decode('ascii')
+                amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')
 
                 upload.firebaseUploadTracking(firebaseProject) 
                 currentAngle = int(maxAmplitudeIndex) * int(180/int(beamformerPositions-1))
