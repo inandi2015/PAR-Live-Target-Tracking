@@ -12,7 +12,7 @@ class FirebaseDownload:
     def firebaseDownloadRadar(self, firebaseProject):
         while True:
             result = firebaseProject.get('/DEV', 'SignalData')
-            if result['Mode'] == 'Start' or result['Mode'] == 'Stop' or result['Mode'] == 'Local':
+            if result['Mode'] == 'Start' or result['Mode'] == 'Stop' or result['Mode'] == 'Local' or result['Mode'] == 'Acquisition':
                 break
 
         #print(result['Mode'])
@@ -27,8 +27,9 @@ class FirebaseDownload:
             # Kill everything
             return 'Stop', 'NA'
         elif result['Mode'] == 'Local':
-            print("Steering beamformer...")
+            #print("Steering beamformer...")
             phaseDifference = result['PhaseDifference']
             # Return phase difference result['PhaseDifference'] to steer beam
             return 'Local', phaseDifference
-        
+        elif result['Mode'] == 'Acquisition':
+            return 'NA', 'NA' 

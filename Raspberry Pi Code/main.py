@@ -35,7 +35,7 @@ while True: # Outer loop for keeping radar listening continuously
                 subprocess.call('python beamformerSteer.py ' + str(position), shell=True)
                 amplitude = subprocess.check_output('python AcquisitionIn.py').decode('ascii')
                 if (amplitude.splitlines()[-1]) != "failed to open device":
-                    print("Amplitude found: " amplitude.splitlines()[-1])
+                    print("Amplitude found: " + amplitude.splitlines()[-1])
                     amplitudeValues.append(float(amplitude.splitlines()[-1]))
                 else:
                     i = i - 1 # Retest the previous position

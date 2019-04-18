@@ -2,10 +2,14 @@ from ctypes import *
 from dwfconstants import *
 import math
 import time
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import sys
 import numpy 
 from numpy.fft import fft,fftfreq, ifft
+
+class DevNull:
+        def write(self, msg):
+                    pass
 
 if sys.platform.startswith("win"):
     dwf = cdll.dwf
@@ -84,8 +88,9 @@ fft_vals1=fft(rgpy1)
 #fft_vals2=fft(rgpy2)
 
 fft_theo1=2.0*numpy.abs(fft_vals1/n)
-
+sys.stderr = DevNull()
 print max(fft_theo1[mask].tolist())
+sys.stderr = DevNull()
 # dwf.FDwfAnalogInRecordLengthGet(hdwf, byref(Length))
 # dwf.FDwfAnalogInFrequencyInfo(hdwf, byref(Min), byref(Max))
 
