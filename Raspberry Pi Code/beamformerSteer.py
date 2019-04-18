@@ -165,7 +165,5 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 2028 01') #Load Work Registers
 
 print "Beamformer Steering..."
-positionNumber = int(sys.argv[1])
-angleDivision = int(180/int(sys.argv[2]))
-position = positionNumber * angleDivision
-BeamSteering(int(position))
+
+BeamSteering(int(sys.argv[1]))

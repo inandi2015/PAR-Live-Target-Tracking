@@ -9,6 +9,7 @@ download = FirebaseDownload()
 firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking.firebaseio.com/DEV', None)
 
 beamformerThreshold = 10.0 # Amplitude setting for threshold
+offsetAngle = 5
 waitStart = True
 while True: # Outer loop for keeping radar listening continuously
     if waitStart == True:
@@ -28,9 +29,13 @@ while True: # Outer loop for keeping radar listening continuously
             # Check every angle with beamformer
             beamformerPositions = 5
             for i in range(beamformerPositions): # for i=0 to i=(beamformerPositions-1)
-                subprocess.call('python beamformerSteer.py ' + str(i) + ' ' + str((beamformerPositions-1)), shell=True)
+                positionNumber = int(i)
+                angleDivision = int(180/int(beamformerPositions-1))
+                position = positionNumber * angleDivision
+                subprocess.call('python beamformerSteer.py ' + str(position), shell=True)
                 amplitude = subprocess.check_output('python AcquisitionIn.py').decode('ascii')
                 if (amplitude.splitlines()[-1]) != "failed to open device":
+                    print("Amplitude found: " amplitude.splitlines()[-1])
                     amplitudeValues.append(float(amplitude.splitlines()[-1]))
                 else:
                     i = i - 1 # Retest the previous position
@@ -38,11 +43,14 @@ while True: # Outer loop for keeping radar listening continuously
             if max(amplitudeValues) > beamformerThreshold:
                 maxAmplitudeIndex = amplitudeValues.index(max(amplitudeValues))
                 print("Target found. Repositioning for tracking")
-                subprocess.call('python beamformerSteer.py ' + str(maxAmplitudeIndex) + ' ' + str((beamformerPositions-1)), shell=True)
+                positionNumber = int(maxAmplitudeIndex)
+                angleDivision = int(180/int(beamformerPositions-1))
+                position = positionNumber * angleDivision
+                subprocess.call('python beamformerSteer.py ' + str(position), shell=True)
                 amplitude = subprocess.check_output('python AcquisitionIn.py').decode('ascii')
 
-                upload.firebaseUploadTracking(firebaseProject)
-                currentPosition = maxAmplitudeIndex
+                upload.firebaseUploadTracking(firebaseProject) 
+                currentAngle = int(maxAmplitudeIndex) * int(180/int(beamformerPositions-1))
                 while state != 'Stop': 
                     # Tracking Mode
                     state, phase = download.firebaseDownloadRadar(firebaseProject) # Wait for state to be local
@@ -50,11 +58,11 @@ while True: # Outer loop for keeping radar listening continuously
                         break
                     if state == 'Local':
                         if float(phase) > 0:
-                            currentPosition = currentPosition + 1
-                            subprocess.call('python beamformerSteer.py ' + str(currentPosition) + ' ' + str((beamformerPositions-1)), shell=True)
+                            currentAngle = currentAngle + offsetAngle
+                            subprocess.call('python beamformerSteer.py ' + str(currentAngle), shell=True)
                         elif float(phase) < 0:
-                            currentPosition = currentPosition - 1
-                            subprocess.call('python beamformerSteer.py ' + str(currentPosition) + ' ' + str((beamformerPositions-1)), shell=True)
+                            currentAngle = currentAngle - offsetAngle
+                            subprocess.call('python beamformerSteer.py ' + str(currentAngle), shell=True)
                         amplitude = subprocess.check_output('python AcquisitionIn.py').decode('ascii')         
                         if float(amplitude.splitlines()[-1]) > beamformerThreshold:
                             # state, phase = download.firebaseDownloadRadar(firebaseProject) 
