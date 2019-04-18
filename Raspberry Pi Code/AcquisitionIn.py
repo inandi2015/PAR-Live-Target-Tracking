@@ -89,6 +89,9 @@ fft_vals1=fft(rgpy1)
 
 fft_theo1=2.0*numpy.abs(fft_vals1/n)
 print max(fft_theo1[mask].tolist())
+f = open('amplitude.txt', 'w')
+f.write(str(max(fft_theo1[mask].tolist())))
+f.close()
 #sys.stderr = DevNull()
 
 # dwf.FDwfAnalogInRecordLengthGet(hdwf, byref(Length))
