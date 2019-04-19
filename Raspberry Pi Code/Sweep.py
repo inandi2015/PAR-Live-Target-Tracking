@@ -50,6 +50,10 @@ dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(1), c_double(5))
 #wait at least 2 seconds for the offset to stabilize
 time.sleep(2)
 
+f = open('sweep.txt', 'w')
+f.write(str("Sweep"))
+f.close()
+
 while True:
     #begin acquisition
     dwf.FDwfAnalogInConfigure(hdwf, c_bool(False), c_bool(True))
@@ -67,6 +71,7 @@ while True:
     dwf.FDwfAnalogInStatusData(hdwf, 1, rgdSamples2, 8192)
     dwf.FDwfAnalogInRecordLengthSet(hdwf, byref(Length))
     dwf.FDwfAnalogInBufferSizeInfo(hdwf, byref(Min), byref(Max))
+    dwf.FDwfDeviceCloseAll()
 
     rgpy1=[0.0]*len(rgdSamples1)
     for i in range(0,len(rgpy1)):
@@ -89,15 +94,21 @@ while True:
     fft_theo1=2.0*numpy.abs(fft_vals1/n)
 
     print max(fft_theo1[mask].tolist())
-    f = open( 'file.txt', 'w' )
+    f = open('amplitude.txt', 'w')
     f.write(str(max(fft_theo1[mask].tolist())))
     f.close()
 
-    time.sleep(0.1)
-    copyfile("testCH2.csv", "testCH2Final.csv")
-    copyfile("testCH1.csv", "testCH1Final.csv")
-    print os.stat('testCH1Final.csv').st_size 
-    print os.stat('testCH2Final.csv').st_size 
+    with open('sweep.txt', 'r') as file:
+        sweep = str(file.read())
+
+    while sweep != "Sweep":
+        print "Pausing execution..."
+
+    #time.sleep(0.1)
+    #copyfile("testCH2.csv", "testCH2Final.csv")
+    #copyfile("testCH1.csv", "testCH1Final.csv")
+    #print os.stat('testCH1Final.csv').st_size 
+    #print os.stat('testCH2Final.csv').st_size 
     
 # dwf.FDwfAnalogInRecordLengthGet(hdwf, byref(Length))
 # dwf.FDwfAnalogInFrequencyInfo(hdwf, byref(Min), byref(Max))
