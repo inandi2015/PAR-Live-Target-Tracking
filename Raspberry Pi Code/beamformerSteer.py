@@ -31,8 +31,6 @@ def BeamSteering(angle):
     plane = 360
     #writeDelay = 0.01
 
-    print str(I_array[index]).replace('0x','')
-    print str(Q_array[index]).replace('0x','')
     #****************** B o a r d A - RX_1  **************** 
     # 
     #Set the first antenna to 0 degrees    
@@ -47,9 +45,9 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 0015 ' + str(Q_array[index]).replace('0x','')) #CH1_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-
     print str(I_array[index]).replace('0x','')
     print str(Q_array[index]).replace('0x','')
+    
     #****************** B o a r d A - RX_2  **************** 
     
     #Map the angle to a value between 0 and 360 degrees
@@ -64,9 +62,9 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 0017 ' + str(Q_array[index]).replace('0x','')) #CH2_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-
     print str(I_array[index]).replace('0x','')
     print str(Q_array[index]).replace('0x','')
+
     #****************** B o a r d A - RX_3  **************** 
 
     #Apply phase shift to next antenna  
@@ -82,9 +80,9 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 0019 ' + str(Q_array[index]).replace('0x','')) #CH3_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-
     print str(I_array[index]).replace('0x','')
     print str(Q_array[index]).replace('0x','')
+
     #****************** B o a r d A - RX_4  **************** 
 
     #Apply phase shift to next antenna  
@@ -100,9 +98,9 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 001B ' + str(Q_array[index]).replace('0x','')) #CH4_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-
     print str(I_array[index]).replace('0x','')
     print str(Q_array[index]).replace('0x','')
+
     #****************** B o a r d B - RX_1  **************** 
 
     #Apply phase shift to next antenna  
@@ -118,9 +116,9 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 2015 ' + str(Q_array[index]).replace('0x','')) #CH5_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-
     print str(I_array[index]).replace('0x','')
     print str(Q_array[index]).replace('0x','')
+
     #****************** B o a r d B - RX_2  **************** 
 
     #Apply phase shift to next antenna  
@@ -136,9 +134,9 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 2017 ' + str(Q_array[index]).replace('0x','')) #CH6_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-
     print str(I_array[index]).replace('0x','')
     print str(Q_array[index]).replace('0x','')
+
     #****************** B o a r d B - RX_3  **************** 
 
     #Apply phase shift to next antenna  
@@ -154,9 +152,10 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 2019 ' + str(Q_array[index]).replace('0x','')) #CH7_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-
     print str(I_array[index]).replace('0x','')
     print str(Q_array[index]).replace('0x','')
+
+    
     #****************** B o a r d B - RX_4  **************** 
 
     #Apply phase shift to next antenna  
@@ -172,6 +171,8 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 201B ' + str(Q_array[index]).replace('0x','')) #CH8_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
+    print str(I_array[index]).replace('0x','')
+    print str(Q_array[index]).replace('0x','')
 
 print "Beamformer Steering..."
 
