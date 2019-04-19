@@ -85,10 +85,17 @@ array2 = numpy.asarray(rgpy2)
 numpy.savetxt("testCH2.csv", array2, delimiter=",")
 
 fft_vals1=fft(rgpy1)
-#fft_vals2=fft(rgpy2)
+fft_vals2=fft(rgpy2)
 
 fft_theo1=2.0*numpy.abs(fft_vals1/n)
-print max(fft_theo1[mask].tolist())
+fft_theo2=2.0*numpy.abs(fft_vals2/n)
+fft_total_initial=[None]*8192
+fft_total=numpy.array(fft_total_initial) 
+
+for i in range(0,len(rgpy1)):
+    fft_total[i] = fft_theo1[i] + fft_theo2[i]
+
+print max(fft_total[mask].tolist())
 #f = open('amplitude.txt', 'w')
 #f.write(str(max(fft_theo1[mask].tolist())))
 #f.close()
