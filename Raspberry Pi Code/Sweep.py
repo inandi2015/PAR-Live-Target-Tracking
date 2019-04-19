@@ -93,7 +93,8 @@ while True:
 
     fft_theo1=2.0*numpy.abs(fft_vals1/n)
     fft_theo2=2.0*numpy.abs(fft_vals2/n)
-    fft_total=[None] * 8192 
+    fft_total_initial=[None]*8192
+    fft_total=numpy.array(fft_total_initial) 
 
     for i in range(0,len(rgpy1)):
         fft_total[i] = fft_theo1[i] + fft_theo2[i]
