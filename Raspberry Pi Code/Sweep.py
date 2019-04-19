@@ -71,7 +71,7 @@ while True:
     dwf.FDwfAnalogInStatusData(hdwf, 1, rgdSamples2, 8192)
     dwf.FDwfAnalogInRecordLengthSet(hdwf, byref(Length))
     dwf.FDwfAnalogInBufferSizeInfo(hdwf, byref(Min), byref(Max))
-    dwf.FDwfDeviceCloseAll()
+    #dwf.FDwfDeviceCloseAll() # Leave commented out to get new values
 
     rgpy1=[0.0]*len(rgdSamples1)
     for i in range(0,len(rgpy1)):
@@ -89,13 +89,18 @@ while True:
     numpy.savetxt("testCH2.csv", array2, delimiter=",")
 
     fft_vals1=fft(rgpy1)
-    #fft_vals2=fft(rgpy2)
+    fft_vals2=fft(rgpy2)
 
     fft_theo1=2.0*numpy.abs(fft_vals1/n)
+    fft_theo2=2.0*numpy.abs(fft_vals2/n)
+    fft_total=[None] * 8192 
 
-    print max(fft_theo1[mask].tolist())
+    for i in range(0,len(rgpy1)):
+        fft_total[i] = fft_theo1[i] + fft_theo2[i]
+
+    print max(fft_total[mask].tolist())
     f = open('amplitude.txt', 'w')
-    f.write(str(max(fft_theo1[mask].tolist())))
+    f.write(str(max(fft_total[mask].tolist())))
     f.close()
 
     with open('sweep.txt', 'r') as file:
