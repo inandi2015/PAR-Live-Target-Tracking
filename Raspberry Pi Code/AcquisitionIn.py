@@ -2,7 +2,7 @@ from ctypes import *
 from dwfconstants import *
 import math
 import time
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import sys
 import numpy 
 from numpy.fft import fft,fftfreq, ifft
@@ -35,9 +35,9 @@ if hdwf.value == hdwfNone.value:
     dwf.FDwfGetLastErrorMsg(szerr)
     print "szerr.value"
     print "failed to open device"
-    f = open('amplitude.txt', 'w')
-    f.write("failed to open device")
-    f.close()
+    #f = open('amplitude.txt', 'w')
+    #f.write("failed to open device")
+    #f.close()
     quit()
 
 
@@ -89,7 +89,6 @@ fft_vals1=fft(rgpy1)
 
 fft_theo1=2.0*numpy.abs(fft_vals1/n)
 print max(fft_theo1[mask].tolist())
-print "Test"
 #f = open('amplitude.txt', 'w')
 #f.write(str(max(fft_theo1[mask].tolist())))
 #f.close()
@@ -101,14 +100,14 @@ print "Test"
 #print Max
 #print Length
 
-plt.figure(1)
-plt.plot(rgpy1)
+#plt.figure(1)
+#plt.plot(rgpy1)
 #plt.plot(rgpy2)
 
-plt.figure(2)
-plt.plot(freqs[mask],fft_theo1[mask])
+#plt.figure(2)
+#plt.plot(freqs[mask],fft_theo1[mask])
 #plt.plot(freqs,fft_vals2)
-plt.show()
+#plt.show()
 
 #fft_theo[mask].tolist()
 #print max(fft_theo1[mask].tolist())

@@ -8,7 +8,7 @@ upload = FirebaseUpload()
 download = FirebaseDownload()
 firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking.firebaseio.com/DEV', None)
 
-beamformerThreshold = 10.0 # Amplitude setting for threshold
+beamformerThreshold = 0.05 # Amplitude setting for threshold
 offsetAngle = 5
 waitStart = True
 while True: # Outer loop for keeping radar listening continuously
@@ -33,7 +33,9 @@ while True: # Outer loop for keeping radar listening continuously
                 angleDivision = int(180/int(beamformerPositions-1))
                 position = positionNumber * angleDivision
                 subprocess.call('python beamformerSteer.py ' + str(position), shell=True)
+                print("Test1")
                 amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')
+                print("Test2")
                 #subprocess.call('python AcquisitionIn.py', shell=True)
                 #with open('amplitude.txt', 'r') as file:
                 #    amplitude = float(file.read())
@@ -68,7 +70,8 @@ while True: # Outer loop for keeping radar listening continuously
                         elif float(phase) < 0:
                             currentAngle = currentAngle - offsetAngle
                             subprocess.call('python beamformerSteer.py ' + str(currentAngle), shell=True)
-                        amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')         
+                        amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')
+                        print("AMPLITUDE")
                         #subprocess.call('python AcquisitionIn.py', shell=True)
                         #with open('amplitude.txt', 'r') as file:
                         #    amplitude = float(file.read())
@@ -78,6 +81,7 @@ while True: # Outer loop for keeping radar listening continuously
                             #     break
                             upload.firebaseUploadTracking(firebaseProject) 
                         else:
+                            print("BROKEN")
                             break # Go back to acquisition
                     else:
                         pass
