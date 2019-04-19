@@ -30,31 +30,31 @@ freqs=100.0*fftfreq(n)
 
 mask=freqs>0
 
-dwf.FDwfDeviceOpen(c_int(-1), byref(hdwf))
-
-if hdwf.value == hdwfNone.value:
-    szerr = create_string_buffer(512)
-    dwf.FDwfGetLastErrorMsg(szerr)
-    print "szerr.value"
-    print "failed to open device"
-    quit()
-
-
-#set up acquisition
-dwf.FDwfAnalogInFrequencySet(hdwf, c_double(100000000.0))
-dwf.FDwfAnalogInBufferSizeSet(hdwf, c_int(8192)) 
-dwf.FDwfAnalogInChannelEnableSet(hdwf, c_int(0), c_bool(True))
-dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(0), c_double(5))
-dwf.FDwfAnalogInChannelEnableSet(hdwf, c_int(1), c_bool(True))
-dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(1), c_double(5))
-#wait at least 2 seconds for the offset to stabilize
-time.sleep(2)
-
 f = open('sweep.txt', 'w')
 f.write(str("Sweep"))
 f.close()
 
 while True:
+    dwf.FDwfDeviceOpen(c_int(-1), byref(hdwf))
+
+    if hdwf.value == hdwfNone.value:
+        szerr = create_string_buffer(512)
+        dwf.FDwfGetLastErrorMsg(szerr)
+        print "szerr.value"
+        print "failed to open device"
+        quit()
+
+
+    #set up acquisition
+    dwf.FDwfAnalogInFrequencySet(hdwf, c_double(100000000.0))
+    dwf.FDwfAnalogInBufferSizeSet(hdwf, c_int(8192)) 
+    dwf.FDwfAnalogInChannelEnableSet(hdwf, c_int(0), c_bool(True))
+    dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(0), c_double(5))
+    dwf.FDwfAnalogInChannelEnableSet(hdwf, c_int(1), c_bool(True))
+    dwf.FDwfAnalogInChannelRangeSet(hdwf, c_int(1), c_double(5))
+    #wait at least 2 seconds for the offset to stabilize
+    time.sleep(2)
+
     #begin acquisition
     dwf.FDwfAnalogInConfigure(hdwf, c_bool(False), c_bool(True))
     print "   waiting to finish"
@@ -71,7 +71,7 @@ while True:
     dwf.FDwfAnalogInStatusData(hdwf, 1, rgdSamples2, 8192)
     dwf.FDwfAnalogInRecordLengthSet(hdwf, byref(Length))
     dwf.FDwfAnalogInBufferSizeInfo(hdwf, byref(Min), byref(Max))
-    #dwf.FDwfDeviceCloseAll() # Leave commented out to get new values
+    dwf.FDwfDeviceCloseAll() # Leave commented out to get new values
 
     rgpy1=[0.0]*len(rgdSamples1)
     for i in range(0,len(rgpy1)):
