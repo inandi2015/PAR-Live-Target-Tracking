@@ -7,8 +7,8 @@ import numpy as np
 
 #********************* T a b l e   o f  P h a s e  S e t t i n g s ************
 angle_array = [0, 2.813, 5.625, 8.438, 11.25, 14.063, 16.875, 19.688, 22.5, 25.313, 28.125, 30.938, 33.75, 36.563, 39.375, 42.188, 45, 47.813, 50.625, 53.438, 56.25, 59.063, 61.875, 64.688, 67.5, 70.313, 73.125, 75.938, 78.75, 81.563, 84.375, 87.188, 90, 92.813, 95.625, 98.438, 101.25, 104.063, 106.875, 109.688, 112.5, 115.313, 118.125, 120.938, 123.75, 126.563, 129.375, 132.188, 135, 137.813, 140.625, 143.438, 146.25, 149.063, 151.875, 154.688, 157.5, 160.313, 163.125, 165.938, 168.75, 171.563, 174.375, 177.188, 180, 182.813, 185.625, 188.438, 191.25, 194.063, 196.875, 199.688, 202.5, 205.313, 208.125, 210.938, 213.75, 216.563, 219.375, 222.188, 225, 227.813, 230.625, 233.438, 236.25, 239.063, 241.875, 244.688, 247.5, 250.313, 253.125, 255.938, 258.75, 261.563, 264.375, 267.188, 270, 272.813, 275.625, 278.438, 281.25, 284.063, 286.875, 289.688, 292.5, 295.313, 298.125, 300.938, 303.75, 306.563, 309.375, 312.188, 315, 317.813, 320.625, 323.438, 326.25, 329.063, 331.875, 334.688, 337.5, 340.313, 343.125, 345.938, 348.75, 351.563, 354.375, 357.188]
-I_array = [0x3F, 0x3F, 0x3F, 0x3F, 0x3F, 0x3E, 0x3E, 0x3D, 0x3D, 0x3C, 0x3C, 0x3B, 0x3A, 0x39, 0x38, 0x37, 0x36, 0x35, 0x34, 0x33, 0x32, 0x30, 0x2F, 0x2E, 0x2C, 0x2B, 0x2A, 0x28, 0x27, 0x25, 0x24, 0x22, 0x21, 0x1, 0x3, 0x4, 0x6, 0x7, 0x8, 0xA, 0xB, 0xD, 0xE, 0xF, 0x11, 0x12, 0x13, 0x14, 0x16, 0x17, 0x18, 0x19, 0x19, 0x1A, 0x1B, 0x1C, 0x1C, 0x1D, 0x1E, 0x1E, 0x1E, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1E, 0x1E, 0x1D, 0x1D, 0x1C, 0x1C, 0x1B, 0x1A, 0x19, 0x18, 0x17, 0x16, 0x15, 0x14, 0x13, 0x12, 0x10, 0xF, 0xE, 0xC, 0xB, 0xA, 0x8, 0x7, 0x5, 0x4, 0x2, 0x1, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2F, 0x31, 0x32, 0x33, 0x34, 0x36, 0x37, 0x38, 0x39, 0x39, 0x3A, 0x3B, 0x3C, 0x3C, 0x3D, 0x3E, 0x3E, 0x3E, 0x3F, 0x3F, 0x3F]
-Q_array = [0x20, 0x21, 0x23, 0x24, 0x26, 0x27, 0x28, 0x2A, 0x2B, 0x2D, 0x2E, 0x2F, 0x30, 0x31, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x38, 0x39, 0x3A, 0x3A, 0x3B, 0x3C, 0x3C, 0x3C, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3D, 0x3C, 0x3C, 0x3C, 0x3B, 0x3A, 0x3A, 0x39, 0x38, 0x38, 0x37, 0x36, 0x35, 0x34, 0x33, 0x31, 0x30, 0x2F, 0x2E, 0x2D, 0x2B, 0x2A, 0x28, 0x27, 0x26, 0x24, 0x23, 0x21, 0x20, 0x1, 0x3, 0x4, 0x6, 0x7, 0x8, 0xA, 0xB, 0xD, 0xE, 0xF, 0x10, 0x11, 0x13, 0x14, 0x15, 0x16, 0x17, 0x18, 0x18, 0x19, 0x1A, 0x1A, 0x1B, 0x1C, 0x1C, 0x1C, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1D, 0x1C, 0x1C, 0x1C, 0x1B, 0x1A, 0x1A, 0x19, 0x18, 0x18, 0x17, 0x16, 0x15, 0x14, 0x13, 0x11, 0x10, 0xF, 0xE, 0xD, 0xB, 0xA, 0x8, 0x7, 0x6, 0x4, 0x3, 0x1]
+I_array = ["3F", "3F", "3F", "3F", "3F", "3E", "3E", "3D", "3D", "3C", "3C", "3B", "3A", "39", "38", "37", "36", "35", "34", "33", "32", "30", "2F", "2E", "2C", "2B", "2A", "28", "27", "25", "24", "22", "21", "01", "03", "04", "06", "07", "08", "0A", "0B", "0D", "0E", "0F", "11", "12", "13", "14", "16", "17", "18", "19", "19", "1A", "1B", "1C", "1C", "1D", "1E", "1E", "1E", "1F", "1F", "1F", "1F", "1F", "1F", "1F", "1F", "1E", "1E", "1D", "1D", "1C", "1C", "1B", "1A", "19", "18", "17", "16", "15", "14", "13", "12", "10", "0F", "0E", "0C", "0B", "0A", "08", "07", "05", "04", "02", "01", "21", "23", "24", "26", "27", "28", "2A", "2B", "2D", "2E", "2F", "31", "32", "33", "34", "36", "37", "38", "39", "39", "3A", "3B", "3C", "3C", "3D", "3E", "3E", "3E", "3F", "3F", "3F"]
+Q_array = ["20", "21", "23", "24", "26", "27", "28", "2A", "2B", "2D", "2E", "2F", "30", "31", "33", "34", "35", "36", "37", "38", "38", "39", "3A", "3A", "3B", "3C", "3C", "3C", "3D", "3D", "3D", "3D", "3D", "3D", "3D", "3D", "3D", "3C", "3C", "3C", "3B", "3A", "3A", "39", "38", "38", "37", "36", "35", "34", "33", "31", "30", "2F", "2E", "2D", "2B", "2A", "28", "27", "26", "24", "23", "21", "20", "01", "03", "04", "06", "07", "08", "0A", "0B", "0D", "0E", "0F", "10", "11", "13", "14", "15", "16", "17", "18", "18", "19", "1A", "1A", "1B", "1C", "1C", "1C", "1D", "1D", "1D", "1D", "1D", "1D", "1D", "1D", "1D", "1C", "1C", "1C", "1B", "1A", "1A", "19", "18", "18", "17", "16", "15", "14", "13", "11", "10", "0F", "0E", "0D", "0B", "0A", "08", "07", "06", "04", "03", "01"]
 
 def phaseShift(angle):
     wavelength = 2.498 #cm
@@ -40,13 +40,13 @@ def BeamSteering(angle):
     #Write to Registers 
     os.system('sudo ./spitest 0010 FF') #Ch1_RX_GAIN
     #time.sleep(writeDelay) # add if needed in between everything
-    os.system('sudo ./spitest 0014 ' + str(I_array[index]).replace('0x','')) #CH1_RX_PHASE_I
+    os.system('sudo ./spitest 0014 ' + I_array[index]) #CH1_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 0015 ' + str(Q_array[index]).replace('0x','')) #CH1_RX_PHASE_Q
+    os.system('sudo ./spitest 0015 ' + Q_array[index]) #CH1_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print str(I_array[index]).replace('0x','')
-    print str(Q_array[index]).replace('0x','')
+    print I_array[index]
+    print Q_array[index]
     
     #****************** B o a r d A - RX_2  **************** 
     
@@ -57,13 +57,13 @@ def BeamSteering(angle):
     #Write to Registers 
     os.system('sudo ./spitest 0011 FF') #Ch2_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 0016 ' + str(I_array[index]).replace('0x','')) #CH2_RX_PHASE_I
+    os.system('sudo ./spitest 0016 ' + I_array[index]) #CH2_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 0017 ' + str(Q_array[index]).replace('0x','')) #CH2_RX_PHASE_Q
+    os.system('sudo ./spitest 0017 ' + Q_array[index]) #CH2_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print str(I_array[index]).replace('0x','')
-    print str(Q_array[index]).replace('0x','')
+    print I_array[index]
+    print Q_array[index]
 
     #****************** B o a r d A - RX_3  **************** 
 
@@ -75,13 +75,13 @@ def BeamSteering(angle):
     #Write to Registers
     os.system('sudo ./spitest 0012 FF') #Ch3_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 0018 ' + str(I_array[index]).replace('0x','')) #CH3_RX_PHASE_I
+    os.system('sudo ./spitest 0018 ' + I_array[index]) #CH3_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 0019 ' + str(Q_array[index]).replace('0x','')) #CH3_RX_PHASE_Q
+    os.system('sudo ./spitest 0019 ' + Q_array[index]) #CH3_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print str(I_array[index]).replace('0x','')
-    print str(Q_array[index]).replace('0x','')
+    print I_array[index]
+    print Q_array[index]
 
     #****************** B o a r d A - RX_4  **************** 
 
@@ -93,13 +93,13 @@ def BeamSteering(angle):
     #Write to Registers
     os.system('sudo ./spitest 0013 FF') #Ch4_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 001A ' + str(I_array[index]).replace('0x','')) #CH4_RX_PHASE_I
+    os.system('sudo ./spitest 001A ' + I_array[index]) #CH4_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 001B ' + str(Q_array[index]).replace('0x','')) #CH4_RX_PHASE_Q
+    os.system('sudo ./spitest 001B ' + Q_array[index]) #CH4_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print str(I_array[index]).replace('0x','')
-    print str(Q_array[index]).replace('0x','')
+    print I_array[index]
+    print Q_array[index]
 
     #****************** B o a r d B - RX_1  **************** 
 
@@ -111,13 +111,13 @@ def BeamSteering(angle):
     #Write to Registers
     os.system('sudo ./spitest 2010 FF') #Ch5_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2014 ' + str(I_array[index]).replace('0x','')) #CH5_RX_PHASE_I
+    os.system('sudo ./spitest 2014 ' + I_array[index]) #CH5_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2015 ' + str(Q_array[index]).replace('0x','')) #CH5_RX_PHASE_Q
+    os.system('sudo ./spitest 2015 ' + Q_array[index]) #CH5_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print str(I_array[index]).replace('0x','')
-    print str(Q_array[index]).replace('0x','')
+    print I_array[index]
+    print Q_array[index]
 
     #****************** B o a r d B - RX_2  **************** 
 
@@ -129,13 +129,13 @@ def BeamSteering(angle):
     #Write to Registers
     os.system('sudo ./spitest 2011 FF') #Ch6_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2016 ' + str(I_array[index]).replace('0x','')) #CH6_RX_PHASE_I
+    os.system('sudo ./spitest 2016 ' + I_array[index]) #CH6_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2017 ' + str(Q_array[index]).replace('0x','')) #CH6_RX_PHASE_Q
+    os.system('sudo ./spitest 2017 ' + Q_array[index]) #CH6_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print str(I_array[index]).replace('0x','')
-    print str(Q_array[index]).replace('0x','')
+    print I_array[index]
+    print Q_array[index]
 
     #****************** B o a r d B - RX_3  **************** 
 
@@ -147,13 +147,13 @@ def BeamSteering(angle):
     #Write to Registers
     os.system('sudo ./spitest 2012 FF') #Ch7_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2018 ' + str(I_array[index]).replace('0x','')) #CH7_RX_PHASE_I
+    os.system('sudo ./spitest 2018 ' + I_array[index]) #CH7_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2019 ' + str(Q_array[index]).replace('0x','')) #CH7_RX_PHASE_Q
+    os.system('sudo ./spitest 2019 ' + Q_array[index]) #CH7_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print str(I_array[index]).replace('0x','')
-    print str(Q_array[index]).replace('0x','')
+    print I_array[index]
+    print Q_array[index]
 
     
     #****************** B o a r d B - RX_4  **************** 
@@ -166,13 +166,13 @@ def BeamSteering(angle):
     #Write to Registers
     os.system('sudo ./spitest 2013 FF') #Ch8_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 201A ' + str(I_array[index]).replace('0x','')) #CH8_RX_PHASE_I
+    os.system('sudo ./spitest 201A ' + I_array[index]) #CH8_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 201B ' + str(Q_array[index]).replace('0x','')) #CH8_RX_PHASE_Q
+    os.system('sudo ./spitest 201B ' + Q_array[index]) #CH8_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print str(I_array[index]).replace('0x','')
-    print str(Q_array[index]).replace('0x','')
+    print I_array[index]
+    print Q_array[index]
 
 print "Beamformer Steering..."
 
