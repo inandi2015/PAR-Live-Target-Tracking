@@ -31,7 +31,7 @@ while True: # Outer loop for keeping radar listening continuously
             for i in range(beamformerPositions): # for i=0 to i=(beamformerPositions-1)
                 positionNumber = int(i)
                 angleDivision = int(180/int(beamformerPositions-1))
-                position = positionNumber * angleDivision
+                position = positionNumber * angleDivision - 90
                 subprocess.call('python beamformerSteer.py ' + str(position), shell=True)
                 print("Test1")
                 amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')
@@ -50,7 +50,7 @@ while True: # Outer loop for keeping radar listening continuously
                 print("Target found. Repositioning for tracking")
                 positionNumber = int(maxAmplitudeIndex)
                 angleDivision = int(180/int(beamformerPositions-1))
-                position = positionNumber * angleDivision
+                position = positionNumber * angleDivision - 90
                 subprocess.call('python beamformerSteer.py ' + str(position), shell=True)
                 amplitude = subprocess.check_output(['python', 'AcquisitionIn.py']).decode('ascii')
                 #subprocess.call('python AcquisitionIn.py', shell=True)
