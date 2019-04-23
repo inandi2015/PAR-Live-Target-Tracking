@@ -28,155 +28,170 @@ def phaseShift(angle):
 # Calculate the I and Q register values and set each channel
 def BeamSteering(angle):
     #Calculate phase shift between two elements
-    pshift = phaseShift(angle) 
+    pshift = phaseShift(abs(angle)) 
     #print "angle "+ str(angle) +"\tpshift: " + str(pshift)
     #Copy list of angles into a numerical python array
     phases = np.asarray(angle_array)
     plane = 360
     #writeDelay = 0.01
 
+    #****** C a l c u l a t e  R e g i s t e r  S e t t i n g s ******
+    aE1Shift = (0 * pshift) % plane   
+    aE2Shift = (1 * pshift) % plane   
+    aE3Shift = (2 * pshift) % plane
+    aE4Shift = (3 * pshift) % plane
+    bE1Shift = (4 * pshift) % plane
+    bE2Shift = (5 * pshift) % plane
+    bE3Shift = (6 * pshift) % plane
+    bE4Shift = (7 * pshift) % plane
+
+    if angle >= 0:
+        index1 = (np.abs(phases-aE1Shift)).argmin()
+        index2 = (np.abs(phases-aE2Shift)).argmin() 
+        index3 = (np.abs(phases-aE3Shift)).argmin() 
+        index4 = (np.abs(phases-aE4Shift)).argmin()
+        index5 = (np.abs(phases-bE1Shift)).argmin()
+        index6 = (np.abs(phases-bE2Shift)).argmin()
+        index7 = (np.abs(phases-bE3Shift)).argmin()
+        index8 = (np.abs(phases-bE4Shift)).argmin()
+    else:
+        index8 = (np.abs(phases-aE1Shift)).argmin()
+        index7 = (np.abs(phases-aE2Shift)).argmin() 
+        index6 = (np.abs(phases-aE3Shift)).argmin() 
+        index5 = (np.abs(phases-aE4Shift)).argmin()
+        index4 = (np.abs(phases-bE1Shift)).argmin()
+        index3 = (np.abs(phases-bE2Shift)).argmin()
+        index2 = (np.abs(phases-bE3Shift)).argmin()
+        index1 = (np.abs(phases-bE4Shift)).argmin()
+
+
     #****************** B o a r d A - RX_1  **************** 
     # 
     #Set the first antenna to 0 degrees    
     
     #//////////////////////////////////////////////////
-    index = (np.abs(phases-angle)).argmin()
     #Write to Registers 
     os.system('sudo ./spitest 0010 FF') #Ch1_RX_GAIN
     #time.sleep(writeDelay) # add if needed in between everything
-    os.system('sudo ./spitest 0014 ' + I_array[index]) #CH1_RX_PHASE_I
+    os.system('sudo ./spitest 0014 ' + I_array[index1]) #CH1_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 0015 ' + Q_array[index]) #CH1_RX_PHASE_Q
+    os.system('sudo ./spitest 0015 ' + Q_array[index1]) #CH1_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print I_array[index]
-    print Q_array[index]
+    print I_array[index1]
+    print Q_array[index1]
     
     #****************** B o a r d A - RX_2  **************** 
     
     #Map the angle to a value between 0 and 360 degrees
-    aE2Shift = pshift % plane   
-    index = (np.abs(phases-aE2Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(aE2Shift)+'\t'+str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers 
     os.system('sudo ./spitest 0011 FF') #Ch2_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 0016 ' + I_array[index]) #CH2_RX_PHASE_I
+    os.system('sudo ./spitest 0016 ' + I_array[index2]) #CH2_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 0017 ' + Q_array[index]) #CH2_RX_PHASE_Q
+    os.system('sudo ./spitest 0017 ' + Q_array[index2]) #CH2_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print I_array[index]
-    print Q_array[index]
+    print I_array[index2]
+    print Q_array[index2]
 
     #****************** B o a r d A - RX_3  **************** 
 
     #Apply phase shift to next antenna  
     #Map the angle to a value between 0 and 360 degrees
-    aE3Shift = (2 * pshift) % plane
-    index = (np.abs(phases-aE3Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(aE3Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
     os.system('sudo ./spitest 0012 FF') #Ch3_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 0018 ' + I_array[index]) #CH3_RX_PHASE_I
+    os.system('sudo ./spitest 0018 ' + I_array[index3]) #CH3_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 0019 ' + Q_array[index]) #CH3_RX_PHASE_Q
+    os.system('sudo ./spitest 0019 ' + Q_array[index3]) #CH3_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print I_array[index]
-    print Q_array[index]
+    print I_array[index3]
+    print Q_array[index3]
 
     #****************** B o a r d A - RX_4  **************** 
 
     #Apply phase shift to next antenna  
     #Map the angle to a value between 0 and 360 degrees
-    aE4Shift = (3 * pshift) % plane
-    index = (np.abs(phases-aE4Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(aE4Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
     os.system('sudo ./spitest 0013 FF') #Ch4_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 001A ' + I_array[index]) #CH4_RX_PHASE_I
+    os.system('sudo ./spitest 001A ' + I_array[index4]) #CH4_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 001B ' + Q_array[index]) #CH4_RX_PHASE_Q
+    os.system('sudo ./spitest 001B ' + Q_array[index4]) #CH4_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print I_array[index]
-    print Q_array[index]
+    print I_array[index4]
+    print Q_array[index4]
 
     #****************** B o a r d B - RX_1  **************** 
 
     #Apply phase shift to next antenna  
     #Map the angle to a value between 0 and 360 degrees
-    bE1Shift = (4 * pshift) % plane
-    index = (np.abs(phases-bE1Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(bE1Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
     os.system('sudo ./spitest 2010 FF') #Ch5_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2014 ' + I_array[index]) #CH5_RX_PHASE_I
+    os.system('sudo ./spitest 2014 ' + I_array[index5]) #CH5_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2015 ' + Q_array[index]) #CH5_RX_PHASE_Q
+    os.system('sudo ./spitest 2015 ' + Q_array[index5]) #CH5_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print I_array[index]
-    print Q_array[index]
+    print I_array[index5]
+    print Q_array[index5]
 
     #****************** B o a r d B - RX_2  **************** 
 
     #Apply phase shift to next antenna  
     #Map the angle to a value between 0 and 360 degrees
-    bE2Shift = (5 * pshift) % plane
-    index = (np.abs(phases-bE2Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(bE2Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
     os.system('sudo ./spitest 2011 FF') #Ch6_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2016 ' + I_array[index]) #CH6_RX_PHASE_I
+    os.system('sudo ./spitest 2016 ' + I_array[index6]) #CH6_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2017 ' + Q_array[index]) #CH6_RX_PHASE_Q
+    os.system('sudo ./spitest 2017 ' + Q_array[index6]) #CH6_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print I_array[index]
-    print Q_array[index]
+    print I_array[index6]
+    print Q_array[index6]
 
     #****************** B o a r d B - RX_3  **************** 
 
     #Apply phase shift to next antenna  
     #Map the angle to a value between 0 and 360 degrees
-    bE3Shift = (6 * pshift) % plane
-    index = (np.abs(phases-bE3Shift)).argmin()
     #print str(angle_array[index])+'\t'+str(bE3Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
     os.system('sudo ./spitest 2012 FF') #Ch7_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2018 ' + I_array[index]) #CH7_RX_PHASE_I
+    os.system('sudo ./spitest 2018 ' + I_array[index7]) #CH7_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 2019 ' + Q_array[index]) #CH7_RX_PHASE_Q
+    os.system('sudo ./spitest 2019 ' + Q_array[index7]) #CH7_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print I_array[index]
-    print Q_array[index]
+    print I_array[index7]
+    print Q_array[index7]
 
     
     #****************** B o a r d B - RX_4  **************** 
 
     #Apply phase shift to next antenna  
-    #Map the angle to a value between 0 and 360 degrees
-    bE4Shift = (7 * pshift) % plane
-    index = (np.abs(phases-bE4Shift)).argmin()  
+    #Map the angle to a value between 0 and 360 degrees 
     #print str(angle_array[index])+'\t'+str(bE4Shift)+'\t'+ str(I_array[index]) + '\t'+ str(Q_array[index]) 
     #Write to Registers
     os.system('sudo ./spitest 2013 FF') #Ch8_RX_GAIN
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 201A ' + I_array[index]) #CH8_RX_PHASE_I
+    os.system('sudo ./spitest 201A ' + I_array[index8]) #CH8_RX_PHASE_I
     #time.sleep(writeDelay)
-    os.system('sudo ./spitest 201B ' + Q_array[index]) #CH8_RX_PHASE_Q
+    os.system('sudo ./spitest 201B ' + Q_array[index8]) #CH8_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print I_array[index]
-    print Q_array[index]
+    print I_array[index8]
+    print Q_array[index8]
 
 print "Beamformer Steering..."
 
