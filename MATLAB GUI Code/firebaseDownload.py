@@ -12,10 +12,11 @@ class FirebaseDownload:
     def firebaseDownloadLocal(self, firebaseProject):
         result = firebaseProject.get('/DEV', 'SignalData')
             
-        print(result['Channel1'])
-        print(result['Channel2'])
-        print(result['Mode'])
-        print(result['PhaseDifference'])
+        # print(result['Channel1'])
+        # print(result['Channel2'])
+        # print(result['Mode'])
+        # print(result['PhaseDifference'])
+        # print(result['Angle'])
         
         if result['Mode'] == 'Tracking':
             dataOut1 = numpy.asarray(result['Channel1']) # Convert result data from database into an array
@@ -36,8 +37,13 @@ class FirebaseDownload:
             with open("OutputStatus.csv", "w") as f:
                 writer = csv.writer(f, dialect='excel', lineterminator = '\n')
                 writer.writerow([result['Mode']])
+
+            # Write to a CSV file here the tracking angle so MATLAB can check it
+            with open("OutputAngle.csv", "w") as f:
+                writer = csv.writer(f, dialect='excel', lineterminator = '\n')
+                writer.writerow([result['Angle']])
         else:
-            # Write to a CSV file here the aquisition mode so MATLAB can check it
+            # Write to a CSV file here the acquisition mode so MATLAB can check it
             with open("OutputStatus.csv", "w") as f:
                 writer = csv.writer(f, dialect='excel', lineterminator = '\n')
                 writer.writerow([result['Mode']])
