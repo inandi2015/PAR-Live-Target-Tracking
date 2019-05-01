@@ -13,6 +13,7 @@ firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking
 beamformerThreshold = float(sys.argv[1]) # Amplitude setting for threshold
 beamformerPositions = int(sys.argv[2]) # Number of beamformerpositions, for 7, it's (-60, -40, -20, 0, 20, 40, 60)
 offsetAngle = int(sys.argv[3]) # Set how far to steer to left or right for tracking target
+phaseThreshold = 10
 degreesOfFreedom = 120 # Degrees of freedom for the beamformer steering
 angleCorrection = 60 # Set 120 degrees of freedom from 0 to 120 to be -60 to 60 with an offset of 60
 timeoutVal = 5 # Timeout for Waveforms in case it gets hung up
@@ -78,11 +79,11 @@ while True: # Outer loop for keeping radar listening continuously
                     if state == 'Stop':
                         break
                     if state == 'Local':
-                        if float(phase) > 0:
+                        if float(phase) > phaseThreshold:
                             print("Steer right!")
                             currentAngle = currentAngle + offsetAngle
                             subprocess.call('python beamformerSteer.py ' + str(currentAngle), shell=True)
-                        elif float(phase) < 0:
+                        elif float(phase) < -phaseThreshold:
                             print("Steer left!")
                             currentAngle = currentAngle - offsetAngle
                             subprocess.call('python beamformerSteer.py ' + str(currentAngle), shell=True)
@@ -99,7 +100,7 @@ while True: # Outer loop for keeping radar listening continuously
                             # state, phase = download.firebaseDownloadRadar(firebaseProject) 
                             # if state == 'Stop':
                             #     break
-                            upload.firebaseUploadTracking(firebaseProject, int(position))  
+                            upload.firebaseUploadTracking(firebaseProject, int(currentAngle))  
                         else:
                             print("Lost target. Acquiring target again...")
                             break # Go back to acquisition
