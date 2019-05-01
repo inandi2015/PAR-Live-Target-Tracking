@@ -3,14 +3,16 @@ from firebaseUpload import FirebaseUpload
 from firebaseDownload import FirebaseDownload
 from firebase import firebase
 import time
+import sys
 
 upload = FirebaseUpload()
 download = FirebaseDownload()
 firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking.firebaseio.com/DEV', None)
 
-beamformerThreshold = 0.05 # Amplitude setting for threshold
-offsetAngle = 10 # Set how far to steer to left or right for tracking target
-beamformerPositions = 7 # Number of beamformerpositions (-60, -40, -20, 0, 20, 40, 60)
+# Sample program run: python3 main.py 0.1 7 10
+beamformerThreshold = int(sys.argv[1]) # Amplitude setting for threshold
+beamformerPositions = int(sys.argv[2]) # Number of beamformerpositions, for 7, it's (-60, -40, -20, 0, 20, 40, 60)
+offsetAngle = int(sys.argv[3]) # Set how far to steer to left or right for tracking target
 degreesOfFreedom = 120 # Degrees of freedom for the beamformer steering
 angleCorrection = 60 # Set 120 degrees of freedom from 0 to 120 to be -60 to 60 with an offset of 60
 timeoutVal = 5 # Timeout for Waveforms in case it gets hung up
