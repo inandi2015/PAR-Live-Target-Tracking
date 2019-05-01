@@ -78,8 +78,8 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 0015 ' + Q_array[index1]) #CH1_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print I_array[index1]
-    print Q_array[index1]
+    #print I_array[index1]
+    #print Q_array[index1]
     
     #****************** B o a r d A - RX_2  **************** 
     
@@ -93,8 +93,8 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 0017 ' + Q_array[index2]) #CH2_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print I_array[index2]
-    print Q_array[index2]
+    #print I_array[index2]
+    #print Q_array[index2]
 
     #****************** B o a r d A - RX_3  **************** 
 
@@ -109,8 +109,8 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 0019 ' + Q_array[index3]) #CH3_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print I_array[index3]
-    print Q_array[index3]
+    #print I_array[index3]
+    #print Q_array[index3]
 
     #****************** B o a r d A - RX_4  **************** 
 
@@ -125,8 +125,8 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 001B ' + Q_array[index4]) #CH4_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 0028 01') #Load Work Registers
-    print I_array[index4]
-    print Q_array[index4]
+    #print I_array[index4]
+    #print Q_array[index4]
 
     #****************** B o a r d B - RX_1  **************** 
 
@@ -141,8 +141,8 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 2015 ' + Q_array[index5]) #CH5_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print I_array[index5]
-    print Q_array[index5]
+    #print I_array[index5]
+    #print Q_array[index5]
 
     #****************** B o a r d B - RX_2  **************** 
 
@@ -157,8 +157,8 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 2017 ' + Q_array[index6]) #CH6_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print I_array[index6]
-    print Q_array[index6]
+    #print I_array[index6]
+    #print Q_array[index6]
 
     #****************** B o a r d B - RX_3  **************** 
 
@@ -173,8 +173,8 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 2019 ' + Q_array[index7]) #CH7_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print I_array[index7]
-    print Q_array[index7]
+    #print I_array[index7]
+    #print Q_array[index7]
 
     
     #****************** B o a r d B - RX_4  **************** 
@@ -190,8 +190,8 @@ def BeamSteering(angle):
     os.system('sudo ./spitest 201B ' + Q_array[index8]) #CH8_RX_PHASE_Q
     #time.sleep(writeDelay)
     os.system('sudo ./spitest 2028 01') #Load Work Registers
-    print I_array[index8]
-    print Q_array[index8]
+    #print I_array[index8]
+    #print Q_array[index8]
 
 print "Beamformer Steering..."
 

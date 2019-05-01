@@ -10,7 +10,7 @@ download = FirebaseDownload()
 firebaseProject = firebase.FirebaseApplication('https://par-live-target-tracking.firebaseio.com/DEV', None)
 
 # Sample program run: python3 main.py 0.1 7 10
-beamformerThreshold = int(sys.argv[1]) # Amplitude setting for threshold
+beamformerThreshold = float(sys.argv[1]) # Amplitude setting for threshold
 beamformerPositions = int(sys.argv[2]) # Number of beamformerpositions, for 7, it's (-60, -40, -20, 0, 20, 40, 60)
 offsetAngle = int(sys.argv[3]) # Set how far to steer to left or right for tracking target
 degreesOfFreedom = 120 # Degrees of freedom for the beamformer steering
